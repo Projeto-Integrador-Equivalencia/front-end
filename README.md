@@ -1,43 +1,43 @@
-#Projeto "Estágio por Equivalência" 
-##Front-End
+# Projeto "Estágio por Equivalência" 
+## Front-End
 
 ---
 
-###Clonar o repositório:
+### Clonar o repositório:
 
 git clone https://github.com/Projeto-Integrador-Equivalencia/front-end.git
 cd front-end
 
 ---
 
-###Rodar localmente:
+### Rodar localmente:
 
-**Instalar dependências: **
+**Instalar dependências:**
 
 npm install
 
-**Executar: **
+**Executar:**
 
 npm run dev
 
-**Acessar: **
+**Acessar:**
 
 http://localhost:3000
 
-###Rodar com Docker
+### Rodar com Docker
 
-**Build da imagem: **
+**Build da imagem:**
 
 docker build -t front-end .
 
-**Executar container: **
+**Executar container:**
 
 docker run -p 3000:3000 front-end
 
-**Acessar: **
+**Acessar:**
 
 http://localhost:3000
 
-###Parar container
+### Parar container
 docker ps
-docker stop <ID_DO_CONTAINER>
+docker stop ID_DO_CONTAINER
