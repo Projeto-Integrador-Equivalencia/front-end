@@ -1,62 +1,141 @@
-# Projeto "Estágio por Equivalência" 
-## Front-End
+# 🚀 Desenvolvimento com Dev Container
 
-### Clonar o repositório:
-
-Escolha a pasta que quer guardar o projeto
-
-Botão direito dentro da pasta e selecione a opção "Open Git Bash Here" (Todos os comandos dessa parte serão no console do Git Bash)
-
-git clone https://github.com/Projeto-Integrador-Equivalencia/front-end.git (Será criado uma pasta dentro da pasta que você selecionou)
-
-cd front-end (Para entrar na pasta do projeto)
-
-code . (Irá abrir o VSCode dentro da pasta que você entrou)
+Este projeto utiliza **Docker + Dev Containers** para garantir um ambiente de desenvolvimento **padronizado e isolado**, evitando problemas de configuração entre diferentes máquinas.
 
 ---
 
-### Rodar localmente (Faça isso ao menos 1 vez antes de partir para o DOCKER):
+## 📋 Pré-requisitos
 
-Dentro do VSCode abra um terminal Git Bash (Se já estiver configurado é só clicar ctrl+shift+')
+### Windows / Mac
 
-**Instalar dependências:**
+* **Docker Desktop** → já inclui Docker e Docker Compose
+* **Visual Studio Code**
+* Extensão **Dev Containers**
 
-npm install
+### Linux
 
-**Executar:**
+* **Docker**
+* **Docker Compose** *(caso não esteja incluído na sua instalação)*
+* **Visual Studio Code**
+* Extensão **Dev Containers**
 
+Verifique se o Docker Compose está disponível:
+
+```bash
+docker compose version
+```
+
+---
+
+## ▶️ Inicialização do projeto
+
+### 1. Clonar o repositório
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd <NOME_DO_PROJETO>
+```
+
+Baixa o projeto para sua máquina e acessa a pasta.
+
+---
+
+### 2. Abrir no VS Code
+
+```bash
+code .
+```
+
+Abre o projeto no VS Code, onde o Dev Container será utilizado.
+
+---
+
+### 3. Iniciar o Dev Container
+
+No VS Code:
+
+* Pressione `Ctrl + Shift + P`
+* Execute: **Dev Containers: Reopen in Container**
+
+Isso fará com que o VS Code:
+
+* Construa o container Docker
+* Instale as dependências do projeto
+* Abra o ambiente já dentro do container
+
+⏳ Na primeira execução pode levar alguns minutos.
+
+---
+
+## ⚙️ Execução da aplicação
+
+Após o container iniciar, execute:
+
+```bash
 npm run dev
+```
 
-**Acessar:**
+Esse comando inicia o servidor de desenvolvimento.
 
+A aplicação estará disponível em:
+
+```
 http://localhost:3000
-
-Se funcionou então está tudo perfeito para trabalhar
-
-**Parar:**
-
-ctrl + C no Git Bash do VScode
+```
 
 ---
 
-### Rodar com Docker (RECOMENDADO):
+## 🔄 Uso com Docker existente
 
-**Build da imagem:**
+Se você já utilizava o projeto com Docker:
 
-docker build -t front-end .
+* O Dev Container utilizará a **mesma configuração existente**
+* Não é necessário alterar seu fluxo de desenvolvimento
 
-**Executar container:**
+⚠️ Importante: não execute Docker manualmente e Dev Container ao mesmo tempo.
 
-docker run -p 3000:3000 front-end
+Antes de iniciar o Dev Container, pare containers ativos:
 
-**Acessar:**
-
-http://localhost:3000
+```bash
+docker compose down
+```
 
 ---
 
-### Parar container
+## 🔄 Comandos úteis
 
-docker ps
+### Rebuild do container
 
-docker stop <ID_DO_CONTAINER>
+```
+Dev Containers: Rebuild Container
+```
+
+Reconstrói o ambiente quando houver mudanças em arquivos de configuração (Dockerfile, DevContainer, etc).
+
+---
+
+### Rebuild completo (sem cache)
+
+```
+Dev Containers: Rebuild Container Without Cache
+```
+
+Força a recriação total do ambiente. Use em caso de erros.
+
+---
+
+## 📁 Estrutura do ambiente
+
+* `Dockerfile` → Define o ambiente Node.js utilizado
+* `docker-compose.yml` → Configura e sobe o serviço da aplicação
+* `.devcontainer/` → Integra o container com o VS Code
+
+---
+
+## ⚠️ Diretrizes para a equipe
+
+* Utilize sempre o Dev Container para desenvolvimento
+* Não instale dependências fora do container
+* Evite rodar Docker manualmente junto com o Dev Container
+* Após alterações em arquivos de configuração, faça rebuild
+
