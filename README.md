@@ -54,7 +54,7 @@ Abre o projeto no VS Code, onde o Dev Container será utilizado.
 
 No VS Code:
 
-* Pressione `Ctrl + Shift + P`
+* Pressione `Ctrl + Shift + P` (Caso ele não tenha iniciado com o Dev Container)
 * Execute: **Dev Containers: Reopen in Container**
 
 Isso fará com que o VS Code:
