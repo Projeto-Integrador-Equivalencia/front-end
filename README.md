@@ -72,6 +72,14 @@ Isso fará com que o VS Code:
 Após o container iniciar, execute:
 
 ```bash
+npm install
+```
+
+Esse comando baixa todas as bibliotecas listadas no *package.json* e as armazena na pasta *node_modules*.
+
+Com as dependencias insaladas, execute:
+
+```bash
 npm run dev
 ```
 
