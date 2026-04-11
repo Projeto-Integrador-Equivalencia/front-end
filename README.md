@@ -77,7 +77,7 @@ npm install
 
 Esse comando baixa todas as bibliotecas listadas no *package.json* e as armazena na pasta *node_modules*.
 
-Com as dependencias insaladas, execute:
+Com as dependencias instaladas, execute:
 
 ```bash
 npm run dev
