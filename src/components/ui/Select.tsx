@@ -10,6 +10,7 @@ type SelectProps = {
     name?: string,
     children?: React.ReactNode,
     label: string
+    value?: string | number | undefined
 }
 
 type OptionProps = {
@@ -19,16 +20,16 @@ type OptionProps = {
     selected?: boolean
 }
 
-function Option({ id, value, selected = false, children }: OptionProps) {
-    return <option id={id} value={value} selected={selected}>{children}</option>;
+function Option({ id, value, children }: OptionProps) {
+    return <option id={id} defaultValue={value}>{children}</option>;
 }
 
-function Select({ label, children, disabled = false, autofocus = false, multiple = false }: SelectProps) {
+function Select({ label, value, children, disabled = false, autofocus = false, multiple = false }: SelectProps) {
 
     return (
         <div>
             <label className=""> {label}</label >
-            <select disabled={disabled} autoFocus={autofocus} multiple={multiple}>
+            <select value={value} disabled={disabled} autoFocus={autofocus} multiple={multiple}>
                 {children}
             </select>
         </div >
