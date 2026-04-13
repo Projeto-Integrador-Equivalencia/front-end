@@ -3,23 +3,36 @@ import React from "react";
 import '@/app/globals.css'
 
 
-
-
 interface Props {
     label: string;
     type?: "submit" | "reset" | "button" | undefined;
-    variant?: "primary" | "secondary" | "tertiary";
+    variant?: "primary" | "mobileReverse" | "mobile";
     onClick?: React.MouseEventHandler;
 }
 // Colocar 'use client'; no começo dos arquivos que vão usar o botão
 
 export default function Button({ label, variant = "primary", type, onClick }: Props) {
-    const styles = "px-4 py-2 rounded-md fount-medium transition all"
+    const stylesClasses = "font-medium transition all font-poppins px-8 py-2"
+    const style = {};
+
+    const whiteBorder = "border-2 border-01 border-solid";
+    const fatecGrad = "bg-gradient-to-r from-p05 to-p01"
+
     const variants = {
-        primary: "bg-blue-500 text-white hover:bg-blue-600",
-        secondary: "bg-gray-500 text-white hover:bg-gray-600",
-        tertiary: "bg-red-500 text-white hover:bg-red-600",
+        primary: "rounded-sm text-c01 bg-button-1",
+        mobile: `rounded-full text-c01 ${fatecGrad} hover:text-c12`,
+        mobileReverse: `rounded-full text-c12 hover:text-c01`
     };
 
-    return <button onClick={onClick} type={type} className={`${styles} ${variants[variant]}`}>{label}</button>;
+    const variantsHover = {
+        primary: "rounded-sm hover:bg-button-2",
+        mobile: `rounded-full ${whiteBorder} hover:bg-c01 `,
+        mobileReverse: `rounded-full ${whiteBorder} bg-c01 hover:bg-transparent`
+    };
+
+    return <button onClick={onClick} type={type} style={style} className={`${variants[variant]} transition`}>
+            <span className={`block ${stylesClasses} ${variantsHover[variant]} transition`}>
+            {label}
+        </span>
+    </button>
 }
