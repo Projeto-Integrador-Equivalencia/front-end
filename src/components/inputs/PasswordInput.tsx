@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
 import { useState } from "react";
-import Input from "../ui/Input";
+import Input, { InputProps } from "../ui/Input";
 
-type Props = {
-  label?: string;
-  error?: string;
-} & React.InputHTMLAttributes<HTMLInputElement>;
-
-export default function PasswordInput({
-  ...props
-}: Props) {
+export default function PasswordInput(props: InputProps) {
   const [show, setShow] = useState(false);
 
   return (
-    <div>
-      <Input
-        type={show ? "text" : "password"}
-        {...props}
-      />
+    <div className="flex flex-col gap-1">
+      <div className="relative">
+        <Input
+          type={show ? "text" : "password"}
+          className="pr-16" 
+          {...props}
+        />
 
-      <button type="button" onClick={() => setShow(!show)}>
-        {show ? "Ocultar" : "Mostrar"}
-      </button>
+        <button
+          type="button"
+          onClick={() => setShow(!show)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600 hover:text-black"
+        >
+          {show ? "Ocultar" : "Mostrar"}
+        </button>
+      </div>
     </div>
   );
 }
