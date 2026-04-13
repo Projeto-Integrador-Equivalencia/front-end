@@ -1,0 +1,181 @@
+src/components/footer/footer.module.css
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+  width: 100%;
+  padding: 60px 24px 40px 24px;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column; /* Empilha no mobile */
+  gap: 40px;
+}
+
+/* Quando a tela for maior que 768px (Desktop) */
+@media (min-width: 768px) {
+  .grid {
+    flex-direction: row; /* Lado a lado */
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.col {
+  flex: 1;
+}
+
+.fatecTitle {
+  font-size: 42px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.fatecSubtitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #a1a1aa;
+}
+
+.contactTitle {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.text {
+  font-size: 13px;
+  color: #d4d4d8;
+  line-height: 1.6;
+  margin: 4px 0;
+}
+
+.divider {
+  display: block;      /* Garante que se comporte como bloco */
+  height: 1px;
+  background-color: #27272a;
+  margin: 12px 0;
+  
+  /* Use um valor fixo em pixels para testar primeiro */
+  /* Isso ajuda a ver se o CSS está realmente sendo lido */
+  width: 202px !important; 
+  
+  /* Se quiser que ela seja alinhada à esquerda (caso mude) */
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.logos {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Efeito para deixar logos brancas no CSS puro */
+.logoImage {
+  filter: brightness(0) invert(1);
+}
+
+@media (min-width: 768px) {
+  .rightCol {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+.copyright {
+  margin-top: 60px;
+  /*padding-top: 20px;
+  border-top: 1px solid #18181b;*/
+  font-size: 11px;
+  color: #71717a;
+  border-top: none !important;
+}
+
+.copyrightText {
+  font-size: 11px;
+  color: #71717a;
+  margin: 0;
+}
+
+
+.logoCol {
+  display: flex;
+  align-items: flex-start; /* Alinha o logo no topo da coluna */
+}
+
+.fatecLogo {
+  max-width: 100%; /* Garante que não estoure no mobile */
+  height: auto; /* Mantém a proporção */
+  /* filter: brightness(0) invert(1); */ /* Ative se o logo for preto e o fundo preto */
+}
+
+.instagramWrapper {
+  margin-top: 12px; /* Espaço entre a linha e o ícone */
+  display: flex;
+  justify-content: flex-start; /* Alinha à esquerda conforme a coluna */
+}
+
+.logoImage {
+  /* Se o ícone for colorido e você quiser branco: */
+  filter: brightness(0) invert(1); 
+  transition: transform 0.2s ease;
+  margin-left: -16px;
+  margin-left: -16px ;
+}
+
+.logoSP {
+  /* Margem direita negativa "puxa" o elemento para a direita.
+     Ajuste este valor (ex: -8px, -12px) até que o desenho do logo 
+     fique na distância correta do traço vertical. */
+  margin-right: -13px !important; 
+  
+  /* Garantimos que a margem esquerda seja normal para não desalinhá-lo */
+  margin-left: 0;
+}
+
+
+
+.logoImage:hover {
+  transform: scale(1.1); /* Efeito de zoom leve ao passar o mouse */
+  opacity: 0.8;
+}
+
+/* Garante que as linhas tenham uma cor cinza escura discreta */
+.divider {
+  height: 1px;
+  background-color: #27272a;
+  margin: 12px 0;
+  width: 100%;
+}
+
+.logosContainer {
+  display: flex;
+  align-items: center; /* Alinha o traço e as logos pelo centro vertical */
+  gap: 15px;           /* Espaço entre as logos e o traço */
+  margin-bottom: 20px;
+}
+
+.verticalDivider {
+  width: 2px;          /* Largura do traço (bem fino) */
+  height: 29px;         /* Altura do traço (ajuste conforme o tamanho das logos) */
+  background-color: white; /* Cor cinza escura para não dar tanto contraste quanto o branco */
+  display: block;
+  margin: 0;
+}
+
+.logoImage {
+  filter: brightness(0) invert(1); /* Mantém as logos brancas */
+  display: block;
+}
