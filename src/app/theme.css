@@ -1,0 +1,28 @@
+
+
+@theme {
+    --font-button: Poppins, sans-serif;
+
+    --color-button-1: #0073FF;
+    --color-button-2: #004388;
+
+
+    --color-p01: #410101;
+    --color-p02: #630000;
+    --color-p03: #830000;
+    --color-p04: #9E0000;
+    --color-p05: #B20000;
+
+    --color-c12: #000000;
+    --color-c11: #121212;
+    --color-c10: #2E2E2E;
+    --color-c09: #404040;
+    --color-c08: #595959;
+    --color-c07: #707070;
+    --color-c06: #9C9C9C;
+    --color-c05: #B3B3B3;
+    --color-c04: #CCCCCC;
+    --color-c03: #DEDEDE;
+    --color-c02: #EDEDED;
+    --color-c01: #F7F7F7;
+}
