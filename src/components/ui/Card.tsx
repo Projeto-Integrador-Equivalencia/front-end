@@ -10,7 +10,7 @@ export default function Card({
     className=""
 }: TitleProps) {
   return (
-    <div className={`bg-white overflow-hidden mx-auto shadow-2xl shadow-black/80 ${className}`}>
+    <div className={`bg-white overflow-hidden shadow-2xl shadow-black/80 ${className}`}>
         {children}
     </div>
   );
