@@ -8,7 +8,7 @@ export default function RootLayout({children,}: {children: React.ReactNode;}) {
     <html lang="pt-br">
       <body className="min-h-screen flex flex-col m-0 p-0">
         <Header/>
-        <main className="grow">
+        <main className="grow pt-20">
           {children}
         </main>
         <Footer />

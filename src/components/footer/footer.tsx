@@ -4,8 +4,8 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-black text-white px-6 py-10 md:pt-[60px] md:pb-10 font-sans box-border">
-      <div className="max-w-[1280px] mx-auto">
+    <footer className="w-full bg-black text-white px-6 py-10 md:pt-15 md:pb-10 font-sans box-border">
+      <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-10">
           
           {/* Coluna 1 - Logo Fatec */}
@@ -27,13 +27,13 @@ const Footer = () => {
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">f309adm@cps.sp.gov.br</p>
 
             {/* Linha Divisória 1 - Largura fixa conforme seu teste anterior */}
-            <div className="block h-[1px] bg-zinc-800 my-3 w-[202px]"></div>
+            <div className="block h-px bg-zinc-800 my-3 w-50.5"></div>
 
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">Avenida Jerônimo de Camargo, 421</p>
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">Caetetuba, Atibaia - SP</p>
 
             {/* Linha Divisória 2 */}
-            <div className="block h-[1px] bg-zinc-800 my-3 w-[202px]"></div>
+            <div className="block h-px bg-zinc-800 my-3 w-50.5"></div>
 
             {/* Instagram - margin-left negativa para compensar o ícone */}
             <div className="mt-3 flex justify-start">
@@ -65,7 +65,7 @@ const Footer = () => {
               />
 
               {/* Traço Vertical */}
-              <div className="w-[2px] h-[25px] bg-white block mx-0"></div>
+              <div className="w-0.5 h-6.25 bg-white block mx-0"></div>
 
               <Image
                 src="/images/CPS.png"
@@ -82,7 +82,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright sem a borda superior conforme solicitado */}
-        <div className="mt-[60px] text-[11px] text-zinc-500 border-none">
+        <div className="mt-15 text-[11px] text-zinc-500 border-none">
           Fatec© Direitos Reservados.
         </div>
       </div>

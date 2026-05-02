@@ -9,7 +9,7 @@ export default function CardForm({
     onSubmit 
 }: Props) {
   return (
-    <div className="bg-white rounded-2xl flex overflow-hidden mx-auto w-screen sm:w-[80%] h-[650px] shadow relative ">
+    <div className="bg-white rounded-2xl flex overflow-hidden mx-auto w-screen sm:w-[80%] h-162.5 shadow relative ">
       {/* Lado Esquerdo */}
       <div className="w-0 sm:w-1/2">
         <img
