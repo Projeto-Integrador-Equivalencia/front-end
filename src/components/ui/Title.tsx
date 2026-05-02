@@ -10,7 +10,7 @@ export default function Title({
   className=""
 }: TitleProps) {
   return (
-    <div className="mt-[60px] max-ml-[80px] ml-[10%]">
+    <div className="mt-15 max-ml-[80px] ml-[10%]">
       <h1 className={`text-6xl font-bold z-10 ${className}`}>{children}</h1>
     </div>
   );

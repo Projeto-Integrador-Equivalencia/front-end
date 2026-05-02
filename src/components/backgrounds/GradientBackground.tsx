@@ -6,7 +6,7 @@ export default function BackgroundGradient({
   return (
     <div className="h-screen relative bg-(--c01) flex flex-col place-content-center">
       {/*Fundo gradient*/}
-      <div className="z-10 bg-linear-to-b from-red-700 to-red-950 h-[400px] relative ">
+      <div className="z-10 bg-linear-to-b from-red-700 to-red-950 h-100 relative ">
         <img
           src="/images/PontosBL.png"
           alt="Fatec Atibaia"
