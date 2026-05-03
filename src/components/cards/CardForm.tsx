@@ -21,9 +21,13 @@ export default function CardForm({
 
       {/* Lado Direito */}
       <div className="sm:w-1/2 p-1 mx-auto">
-        <form onSubmit={onSubmit} className="items-center p-1.5 sm:p-6">
+        <div onSubmit={onSubmit} className="items-center p-1.5 sm:p-6 sm:pl-17 relative">
           {children}
-        </form>
+        </div>
+        <img 
+           src="/images/PontosTL.png" 
+           alt="decoração" 
+           className="absolute bottom-5 right-6 w-14 opacity 10 pointer-events-none select-none"/>
       </div>
     </div>
   );
