@@ -53,10 +53,13 @@ export default function LoginPage() {
                 }));
                 }}
         error = {errors.senha}/>
-                <div className="w-full text-right">
-                  <a href="#" className="text-[10px] text-blue-600 hover:underline font-medium">
-                    Não possui uma conta?
-                  </a>
+                <div className="w-full flex justify-end items-center gap-x-97 mt-1">
+                <a href="#" className="text-[10px] text-blue-600 hover:underline font-medium">
+                Recuperar Senha
+                </a>
+                <a href="#" className="text-[10px] text-blue-600 hover:underline font-medium">
+                 Não possui uma conta?
+                 </a>
                 </div>
               </div>
             </div>
