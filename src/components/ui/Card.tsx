@@ -1,17 +1,16 @@
 import React from "react";
 
-type TitleProps = {
-    className?: string;
-    children?: React.ReactNode;
+type CardProps = {
+  className?: string;
+  children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLElement>;
 
-export default function Card({
-    children,
-    className=""
-}: TitleProps) {
+export default function Card({ children, className = "" }: CardProps) {
   return (
-    <div className={`bg-white overflow-hidden shadow-2xl shadow-black/80 ${className}`}>
-        {children}
+    <div
+      className={`bg-white overflow-hidden shadow-2xl shadow-black/80 ${className}`}
+    >
+      {children}
     </div>
   );
 }
