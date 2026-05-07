@@ -1,16 +1,15 @@
 import React from "react";
 import Background from "../ui/Background";
 
+type Props = {} & React.HTMLAttributes<HTMLElement>;
 
-export default function BackgroundWhiteRed({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function BackgroundWhiteRed({ children, className }: Props) {
   return (
     <Background>
+      <div
+        className={`absolute inset-0 -z-10 flex flex-col bg-[linear-gradient(to_bottom,white_50%,#cc0000_50%)] ${className}`}
+      />
       {children}
-      <div className="bg-[#cc0000] fixed -z-10 bottom-0 h-[50%] w-full"></div>
     </Background>
   );
 }
