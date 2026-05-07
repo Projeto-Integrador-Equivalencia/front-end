@@ -1,34 +1,27 @@
 import React from "react";
 import Card from "../ui/Card";
 
-type Props = {
-} & React.HTMLAttributes<HTMLElement>;
+type Props = {} & React.HTMLAttributes<HTMLElement>;
 
-export default function CardForm({
-    children, 
-    onSubmit 
-}: Props) {
+export default function CardForm({ children, className, onSubmit }: Props) {
   return (
-    <div className="bg-white rounded-2xl flex overflow-hidden mx-auto w-screen sm:w-[80%] h-162.5 shadow relative ">
+    <Card
+      className={`rounded-2xl flex w-full max-w-6xl aspect-[16/9] overflow-auto ${className}`}
+    >
       {/* Lado Esquerdo */}
-      <div className="w-0 sm:w-1/2">
+      <div className="w-0 sm:w-1/2 overflow-hidden rounded-2xl">
         <img
           src="/images/ciemIII.jpeg"
           alt="Foto Fatec Atibaia"
           className="h-full w-full object-cover"
         />
       </div>
-
       {/* Lado Direito */}
       <div className="sm:w-1/2 p-1 mx-auto">
-        <div onSubmit={onSubmit} className="items-center p-1.5 sm:p-6 sm:pl-17 relative">
+        <form onSubmit={onSubmit} className="items-center p-1.5 sm:p-6">
           {children}
-        </div>
-        <img 
-           src="/images/PontosTL.png" 
-           alt="decoração" 
-           className="absolute bottom-5 right-6 w-14 opacity 10 pointer-events-none select-none"/>
+        </form>
       </div>
-    </div>
+    </Card>
   );
 }
