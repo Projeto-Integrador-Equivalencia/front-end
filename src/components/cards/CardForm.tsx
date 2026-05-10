@@ -18,9 +18,9 @@ export default function CardForm({ children, className, onSubmit }: Props) {
       </div>
       {/* Lado Direito */}
       <div className="sm:w-1/2 p-1 mx-auto">
-        <form onSubmit={onSubmit} className="items-center p-1.5 sm:p-6">
+        <div className="items-center p-1.5 sm:p-6">
           {children}
-        </form>
+        </div>
       </div>
     </Card>
   );
