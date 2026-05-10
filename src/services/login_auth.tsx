@@ -18,3 +18,26 @@ export async function login(email: string, password: string) {
 
   return result.data;
 }
+
+export function logout(){
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+}
+
+/*
+  Coloquem a função de Logout em cada pagina que o usuario estiver logado:
+
+  function handleLogout() {
+    logout();
+    router.push("/login");
+  }
+
+  E no botão usa esse onClick:
+  *Depois seria interessante criarmos um componente para botão de Logout
+
+  return (
+    <button onClick={handleLogout}>
+      Sair
+    </button>
+  );
+*/
