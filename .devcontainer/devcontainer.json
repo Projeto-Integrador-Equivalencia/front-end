@@ -17,7 +17,8 @@
         "ms-ceintl.vscode-language-pack-pt-br",
         "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
-        "pkief.material-icon-theme"
+        "pkief.material-icon-theme",
+        "ms-azuretools.vscode-containers"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -25,5 +26,7 @@
         "workbench.iconTheme": "material-icon-theme"
       }
     }
-  }
+  },
+
+  "postCreateCommand": "npm install"
 }
