@@ -38,9 +38,9 @@ export default function LoginPage() {
 
       const role = data.user.role;
 
-      if (role === "student") router.push("/aluno");
-      if (role === "advisor") router.push("/orientador");
-      if (role === "administrator") router.push("/admin");
+      if (role === "student") router.push("/student/dashboard");
+      if (role === "advisor") router.push("/advisor/dashboard");
+      if (role === "administrator") router.push("/administrator/dashboard");
     } catch (error) {
       console.error(error);
       alert("Erro ao fazer login");
