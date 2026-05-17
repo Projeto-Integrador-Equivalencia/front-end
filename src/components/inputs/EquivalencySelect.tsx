@@ -1,9 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function EquivalencySelect() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const routes: Record<string, string> = {
     CTPS: "/student/equivalency/ctps_equivalency",
@@ -30,8 +31,14 @@ export default function EquivalencySelect() {
     }
   };
 
+  const currentValue =
+    Object.keys(routes).find(
+      (key) => routes[key] === pathname
+    ) || "CTPS";
+
   return (
     <select
+      value={currentValue}
       onChange={handleChange}
       className="w-full p-3 rounded-lg bg-white text-sm text-zinc-800 outline-none"
     >
