@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export default function Header() {
     return (
-        <header className="fixed w-full absolute top-0 left-0 h-20 bg-black flex items-center justify-center z-50">
+        <header className="sticky w-full absolute top-0 left-0 h-20 bg-black flex items-center justify-center z-50">
             <div className="relative w-full max-w-300 flex items-center justify-center">
                 <div className="flex flex-col items-center">
                     <Image
-                        src="/images/logo_fatec_br.png"
+                        src="/images/logo-fatec.png"
                         alt="Logo Fatec"
                         width={124}
                         height={50}
