@@ -8,8 +8,8 @@ export default function SelfEmployedRegisteredEquivalency() {
   return (
     <BackgroundWhiteRed>
       <div className="flex flex-col min-h-screen w-full">
-        <main className="grow flex flex-col items-center justify-start w-full px-4 pt-4 pb-10">
-          <div className="w-full max-w-275 pt-8 mb-16 text-left">
+        <main className= " flex flex-col items-center w-full px-4 pt-2 pb-10">
+          <div className="w-full max-w-275 -mt-12 mb-12 text-left">
             <p className="text-zinc-500 uppercase text-xs font-bold tracking-widest">
               Solicitação de Estágio de Equivalência
             </p>
