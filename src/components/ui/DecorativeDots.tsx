@@ -13,7 +13,7 @@ export function DecorativeDots({
   const variantStyles = {
     top: "absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 text-white opacity-20 pointer-events-none hidden md:block",
     bottom:
-      "right-4 bottom-4 w-12 h-12 text-zinc-400 opacity-40 pointer-events-none hidden md:block",
+      "absolute right-8 w-12 h-12 text-c07 pointer-events-none hidden md:block",
   };
 
   const chosenStyles = variantStyles[variant];
