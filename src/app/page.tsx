@@ -39,7 +39,7 @@ export default function LoginPage() {
       const role = data.user.role;
 
       if (role === "student") router.push("/student/dashboard");
-      if (role === "advisor") router.push("/advisor/dashboard");
+      if (role === "advisor") router.push("/advisor/requestList");
       if (role === "administrator") router.push("/administrator/dashboard");
     } catch (error) {
       console.error(error);
