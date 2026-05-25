@@ -7,9 +7,11 @@ export default function BackgroundWhiteRed({ children, className }: Props) {
   return (
     <Background>
       <div
-        className={`absolute inset-0 -z-10 flex flex-col bg-[linear-gradient(to_bottom,white_50%,#cc0000_50%)] ${className}`}
+        className={`absolute bottom-0 left-0 z-0 w-full h-1/2 bg-[#cc0000] ${className}`}
       />
-      {children}
+      <div className="relative z-10 flex-1 flex flex-col w-full h-full">
+        {children}
+      </div>
     </Background>
   );
 }
