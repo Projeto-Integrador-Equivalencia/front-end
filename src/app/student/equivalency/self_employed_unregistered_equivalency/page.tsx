@@ -1,5 +1,6 @@
 "use client";
 
+import { UploadButton } from "@/components/ui/UploadButton";
 import CardBlackWhite from "@/components/cards/CardBalckWhite";
 import EquivalencySelect from "@/components/inputs/EquivalencySelect";
 import BackgroundWhiteRed from "@/components/backgrounds/WhiteRedBackground";
@@ -8,7 +9,7 @@ export default function SelfEmployedUnregisteredEquivalency() {
   return (
     <BackgroundWhiteRed>
       <div className="flex flex-col min-h-screen w-full">
-       <main className= " flex flex-col items-center w-full px-4 pt-2 pb-10">
+        <main className=" flex flex-col items-center w-full px-4 pt-2 pb-10">
           <div className="w-full max-w-275 -mt-12 mb-12 text-left">
             <p className="text-zinc-500 uppercase text-xs font-bold tracking-widest">
               Solicitação de Estágio de Equivalência
@@ -40,13 +41,10 @@ export default function SelfEmployedUnregisteredEquivalency() {
                     </span>
                   </div>
 
-                  <div className="bg-white p-3 rounded-lg flex items-center gap-3">
-                    <img src="/images/setaUpload.svg" />
-                    <span className="text-sm text-zinc-400">
-                      Declaração de próprio punho sobre a atividade exercida
-                      vinculada ao respectivo curso, com firma reconhecida.
-                    </span>
-                  </div>
+                  <UploadButton
+                    id="autonomo_nao_inscrito-declaracao"
+                    text="Declaração de atividade exercida, com firma reconhecida"
+                  />
                 </div>
 
                 <div className="pt-6">
