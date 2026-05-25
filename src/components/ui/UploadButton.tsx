@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "@/app/globals.css";
 
 interface PropsUpload {
   id: string;
-  className?: String;
+  text: string;
+  className?: string;
 }
 
 function UploadIcon() {
@@ -40,25 +41,49 @@ function AddIcon() {
   );
 }
 
-export function UploadButton({ id, className }: PropsUpload) {
+
+
+export function UploadButton({
+  id,
+  text,
+  className,
+}: PropsUpload) {
+
+  const [fileName, setFileName] = useState(text);
+
+  function handleFileChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      setFileName(file.name);
+    }
+  }
+
   return (
     <label
       htmlFor={id}
-      className={`flex items-center w-full bg-white text-c11 border-2 px-5 py-3 rounded-md font-select font-medium ${className}`}
+      className={`flex items-center w-full bg-white text-c11 border-2 px-5 py-3 rounded-md font-medium cursor-pointer ${className}`}
     >
       <UploadIcon />
+
+      <span className="ml-3 text-sm text-zinc-400">
+        {fileName}
+      </span>
+
       <input
         type="file"
         name={id}
         id={id}
-        className="mx-2"
-        accept="image/*, .pdf"
+        className="hidden"
+        accept="image/*,.pdf"
         multiple
+        onChange={handleFileChange}
       />
     </label>
   );
 }
-
 interface AddUpProps {
   id: string;
   onClick?: React.MouseEventHandler;

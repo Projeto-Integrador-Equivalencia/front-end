@@ -79,7 +79,7 @@ export default function StudentDashboard() {
             </div>
           </button>
 
-          <button onClick={() => router.push("/")}>
+          <button onClick={() => router.push("/student/requestList")}>
             <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
               <div className="flex ml-20 border-white">
                 <svg

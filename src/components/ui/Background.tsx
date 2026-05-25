@@ -10,7 +10,7 @@ export default function Background({
   children,
 }: BackgroundProps) {
   return (
-    <div className={`relative h-screen flex flex-col ${className}`}>
+    <div className={`relative h-screen flex flex-col bg-c02 ${className}`}>
       {children}
     </div>
   );
