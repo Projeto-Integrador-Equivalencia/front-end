@@ -17,7 +17,7 @@ export default function EquivalencySelect() {
     "Autônomo não Inscrito":
       "/student/equivalency/self_employed_unregistered_equivalency",
 
-    Empregador:
+    Empresario:
       "/student/equivalency/owner_equivalency",
   };
 
@@ -54,8 +54,8 @@ export default function EquivalencySelect() {
         Autônomo não Inscrito
       </option>
 
-      <option value="Empregador">
-        Empregador
+      <option value="Empresario">
+        Empresário
       </option>
     </select>
   );

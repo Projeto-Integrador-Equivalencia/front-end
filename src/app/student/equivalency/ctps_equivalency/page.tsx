@@ -1,5 +1,6 @@
 "use client";
 
+import { UploadButton } from "@/components/ui/UploadButton";
 import CardBlackWhite from "@/components/cards/CardBalckWhite";
 import EquivalencySelect from "@/components/inputs/EquivalencySelect";
 import BackgroundWhiteRed from "@/components/backgrounds/WhiteRedBackground";
@@ -8,7 +9,7 @@ export default function EquivalencyCTPS() {
   return (
     <BackgroundWhiteRed>
       <div className="flex flex-col min-h-screen w-full">
-        <main className= " flex flex-col items-center w-full px-4 pt-2 pb-10">
+        <main className=" flex flex-col items-center w-full px-4 pt-2 pb-10">
           <div className="w-full max-w-275 -mt-12 mb-12 text-left">
             <p className="text-zinc-500 uppercase text-xs font-bold tracking-widest">
               Solicitação de Estágio de Equivalência
@@ -39,33 +40,22 @@ export default function EquivalencyCTPS() {
                       Upload de Arquivo
                     </span>
                   </div>
-                  <div className="bg-white p-3 rounded-lg flex items-center gap-3">
-                    <img src="/images/setaUpload.svg" />
-                    <span className="text-sm text-zinc-400">
-                      1ª página da CTPS (capa/identificação da carteira)
-                    </span>
-                  </div>
+                  <UploadButton
+                    id="ctps-capa"
+                    text="1ª página da carteira de trabalho"
+                  />
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2"></div>
-                  <div className="bg-white p-3 rounded-lg flex items-center gap-3">
-                    <img src="/images/setaUpload.svg" />
-                    <span className="text-sm text-zinc-400">
-                      Página que contém seus dados pessoais (RG e CPF)
-                    </span>
-                  </div>
-                </div>
+                <UploadButton
+                  id="ctps-dados"
+                  text="Página onde contém o RG e CPF"
+                />
 
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2"></div>
-                  <div className="bg-white p-3 rounded-lg flex items-center gap-3">
-                    <img src="/images/setaUpload.svg" />
-                    <span className="text-sm text-zinc-400">
-                      Página do registro do contrato de trabalho
-                    </span>
-                  </div>
-                </div>
+                <UploadButton
+                  id="ctps-contrato"
+                  text="Página do registro do contrato de trabalho"
+                />
+
                 <div className="pt-6">
                   <button
                     type="button"
