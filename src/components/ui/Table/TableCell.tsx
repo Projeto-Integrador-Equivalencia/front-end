@@ -1,3 +1,3 @@
-export default function TableCell({ children }: any) {
-  return <div className="text-sm text-gray-700">{children}</div>;
+export default function TableCell({ children, className = ""}: any) {
+  return <div className={`p-4 font-semibold text-sm ${className}`}>{children}</div>;
 }

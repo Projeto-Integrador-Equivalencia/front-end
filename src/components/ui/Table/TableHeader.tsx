@@ -4,7 +4,7 @@ interface Props {
 
 export default function TableHeader({ columns }: Props) {
   return (
-    <div className="grid grid-cols-6 bg-gray-100 p-4 font-semibold text-sm">
+    <div className="grid grid-cols-6 text-base text-gray-500 border-b border-gray-300">
       {columns.map((col) => (
         <div key={col}>{col}</div>
       ))}
