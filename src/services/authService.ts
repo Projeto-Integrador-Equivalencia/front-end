@@ -8,18 +8,20 @@ export interface LoginData {
 export interface LoginResponse {
   status: string;
   data: {
-    user: {
-      id: number;
-      name: string;
-      email: string;
-      role: string;
-    };
+    user: LoginUser;
     token: string;
   };
 }
 
-export async function loginRequest(data: LoginData): Promise<LoginResponse> {
-  const response = await api.post<LoginResponse>("/auth/login", data);
+export interface LoginUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
 
+export async function loginRequest(param: LoginData): Promise<LoginResponse> {
+  const response = await api.post<LoginResponse>("/auth/login", param);
+  console.log({response});
   return response.data;
 }
