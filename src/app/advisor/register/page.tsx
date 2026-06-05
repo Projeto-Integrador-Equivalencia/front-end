@@ -9,17 +9,19 @@ import Input from "@/components/ui/Input";
 import PasswordInput from "@/components/inputs/PasswordInput";
 import Button from "@/components/ui/Button";
 
-import { getCourses, registerAdvisor } from "@/services/register_advisor";
-
-type Curso = {
-  id: number;
-  codigo?: string;
-};
+import {
+  getCourses,
+  registerAdvisor,
+  type Course,
+} from "@/services/register_advisor";
+import { useAuth } from "@/hooks/userAuth";
 
 export default function CadastroOrientadorPage() {
+  const { token } = useAuth();
+
   const [mensagem, setMensagem] = useState("");
 
-  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [cursos, setCursos] = useState<Course[]>([]);
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -39,8 +41,12 @@ export default function CadastroOrientadorPage() {
 
   useEffect(() => {
     async function buscarCursos() {
+      if (!token) {
+        return;
+      }
+
       try {
-        const cursosEncontrados = await getCourses();
+        const cursosEncontrados = await getCourses(token);
 
         console.log(cursosEncontrados);
 
@@ -51,7 +57,7 @@ export default function CadastroOrientadorPage() {
     }
 
     buscarCursos();
-  }, []);
+  }, [token]);
 
   async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();
@@ -78,13 +84,21 @@ export default function CadastroOrientadorPage() {
     }
 
     try {
-      await registerAdvisor({
-        name: nome,
-        email,
-        cpf,
-        courseId: Number(idCurso),
-        password: senha,
-      });
+      if (!token) {
+        setMensagem("Administrador não autenticado");
+        return;
+      }
+
+      await registerAdvisor(
+        {
+          name: nome,
+          email,
+          cpf,
+          courseId: Number(idCurso),
+          password: senha,
+        },
+        token,
+      );
 
       setMensagem("Orientador cadastrado com sucesso!");
 
@@ -195,14 +209,11 @@ export default function CadastroOrientadorPage() {
                     >
                       <option value="">Selecione</option>
 
-                      <option value="1">DSM</option>
-                      {/*
-                    {cursos.map((curso) => (
-                      <option key={curso.id} value={curso.id}>
-                        {curso.codigo}
-                      </option>
-                    ))}
-                      */}
+                      {cursos.map((curso) => (
+                        <option key={curso.id} value={curso.id}>
+                          {curso.code}
+                        </option>
+                      ))}
                     </select>
 
                     <span
