@@ -4,18 +4,21 @@ import { useState } from "react";
 
 import BackgroundGradient from "@/components/backgrounds/GradientBackground";
 import CardForm from "@/components/cards/CardForm";
-
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
-import { registerCourse } from "@/services/register_course";
+import { registerCourse, type CourseShift } from "@/services/register_course";
+
+import { useAuth } from "@/hooks/userAuth";
 
 export default function CadastroCursoPage() {
+  const { user, token } = useAuth();
+
   const [mensagem, setMensagem] = useState("");
 
   const [nome, setNome] = useState("");
   const [codigo, setCodigo] = useState("");
-  const [periodo, setPeriodo] = useState("");
+  const [periodo, setPeriodo] = useState<CourseShift | "">("");
   const [qtdSemestres, setQtdSemestres] = useState("");
 
   const [errors, setErrors] = useState<{
@@ -39,13 +42,22 @@ export default function CadastroCursoPage() {
       return;
     }
 
+    if (!user || !token) {
+      setMensagem("Administrador não autenticado");
+      return;
+    }
+
     try {
-      await registerCourse({
-        name: nome,
-        code: codigo,
-        shift: periodo,
-        semesterAmout: qtdSemestres,
-      });
+      await registerCourse(
+        {
+          name: nome,
+          code: codigo,
+          shift: periodo,
+          semesterAmount: Number(qtdSemestres),
+          createdByAdminId: user.id,
+        },
+        token,
+      );
 
       setMensagem("Curso cadastrado com sucesso!");
 
@@ -53,11 +65,9 @@ export default function CadastroCursoPage() {
       setCodigo("");
       setPeriodo("");
       setQtdSemestres("");
-
       setErrors({});
     } catch (error) {
       console.error(error);
-
       setMensagem("Erro ao cadastrar curso");
     }
   }
@@ -125,20 +135,14 @@ export default function CadastroCursoPage() {
                   <select
                     id="periodo"
                     value={periodo}
-                    onChange={(e) => setPeriodo(e.target.value)}
-                    className={`font-semibold focus:outline-none focus:ring-2 rounded-md p-2 w-full bg-(--c01)
-      ${
-        errors.periodo
-          ? "border border-red-500 focus:ring-red-500"
-          : "border border-gray-300 focus:ring-blue-600"
-      }`}
+                    onChange={(e) => setPeriodo(e.target.value as CourseShift)}
+                    className="font-semibold focus:outline-none focus:ring-2 rounded-md p-2 w-full bg-(--c01) border border-gray-300 focus:ring-blue-600"
                   >
                     <option value="">Selecione</option>
-
-                    <option value="1">Matutino</option>
-                    <option value="2">Vespertino</option>
-                    <option value="3">Noturno</option>
-                    <option value="4">Integral</option>
+                    <option value="Matutino">Matutino</option>
+                    <option value="Vespertino">Vespertino</option>
+                    <option value="Noturno">Noturno</option>
+                    <option value="Integral">Integral</option>
                   </select>
 
                   <span
@@ -159,14 +163,6 @@ export default function CadastroCursoPage() {
                   onChange={(e) =>
                     setQtdSemestres(e.target.value.replace(/\D/g, ""))
                   }
-                  onBlur={() => {
-                    setErrors((prev) => ({
-                      ...prev,
-                      qtdSemestres: !qtdSemestres
-                        ? "Campo obrigatório"
-                        : undefined,
-                    }));
-                  }}
                   error={errors.qtdSemestres}
                 />
               </div>
