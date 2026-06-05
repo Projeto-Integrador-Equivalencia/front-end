@@ -68,7 +68,9 @@ export default function CadastroAdministradorPage() {
       setErrors({});
     } catch (error) {
       console.error(error);
-      setMensagem("Erro ao realizar cadastro");
+      setMensagem(
+        error instanceof Error ? error.message : "Erro ao realizar cadastro",
+      );
     }
   }
 
