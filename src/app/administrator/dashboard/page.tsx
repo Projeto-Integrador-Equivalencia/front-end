@@ -14,7 +14,7 @@ export default function StudentDashboard() {
           </h1>
         </div>
         <div className="flex justify-center space-x-50">
-          <button onClick={() => router.push("/")}>
+          <button onClick={() => router.push("./courseList")}>
             <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
               <div className="flex justify-center">
                 <svg
@@ -67,7 +67,7 @@ export default function StudentDashboard() {
             </div>
           </button>
 
-          <button onClick={() => router.push("/")}>
+          <button onClick={() => router.push("./advisorRegister")}>
             <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
               <div className="flex ml-20 border-white">
                 <svg
@@ -84,12 +84,10 @@ export default function StudentDashboard() {
                 </svg>
               </div>
               <h1 className="flex justify-center font-bold text-4xl">
-                Equivalências
+                Orientadores
               </h1>
               <p className="text-center text-gray-500 text-opacity-50 font-bold">
-                Configure, edite e crie <br />
-                equivalências relacionadas ao <br />
-                sistema.
+                Cadastre novos orientadores.
               </p>
               <div className="flex justify-center">
                 <svg
@@ -117,7 +115,7 @@ export default function StudentDashboard() {
             </div>
           </button>
 
-          <button onClick={() => router.push("/")}>
+          <button onClick={() => router.push("./advisorRegister")}>
             <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
               <div className="flex justify-center">
                 <svg

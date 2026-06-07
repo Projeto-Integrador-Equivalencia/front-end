@@ -1,6 +1,6 @@
-// ==========================================
-// ENTIDADES E SUB-PROPS (REUTILIZÁVEIS)
-// ==========================================
+// ==============
+// REUTILIZÁVEIS
+// ==============
 
 export interface Documento {
   id: number;
@@ -30,9 +30,9 @@ export interface LogProps {
   createdAt: string;
 }
 
-// ==========================================
+// ===================
 // GET REQUEST BY ID
-// ==========================================
+// ===================
 
 export interface getRequestInfo {
   status: string;
@@ -58,16 +58,16 @@ export interface getRequestInfo {
   };
 }
 
-// ==========================================
-// POST CREATE REQUEST (NOVAS INTERFACES)
-// ==========================================
+// ====================
+// POST CREATE REQUEST
+// ====================
 
 // Payload de entrada para a criação de uma experiência
 export interface CreateExperienceInput {
   role: string;
   cnpj: string;
   startDate: string; // Formato YYYY-MM-DD
-  endDate: string;   // Formato YYYY-MM-DD
+  endDate: string; // Formato YYYY-MM-DD
 }
 
 // Payload completo enviado no método POST (antes de montar o FormData)
@@ -96,4 +96,36 @@ export interface CreateRequestResponse {
       createdAt: string; // ISO Date String
     };
   };
+}
+
+// =====================================================
+// PATCH ASSIGN ADVISOR TO REQUEST (JSON DE SUCESSO)
+// =====================================================
+
+export interface assignSuccess {
+  status: string;
+  message: string;
+}
+
+// =====================================================
+// GET ALL REQUESTS PELO ESTUDANTE (LISTAGEM)
+// =====================================================
+
+export interface GetRequestsListByStudentIdResponse {
+  status: string; 
+  data: {
+    props: {
+      id: number;
+      protocol: string;
+      status: string;
+      observation: string;
+      studentId: number;
+      advisorId: number | null;
+      equivalencyId: number;
+      createdAt: string; // ISO Date String
+      updatedAt: string; // ISO Date String
+      Documents: Documento[];
+      Professional_Experience: ExperienciaProfissional[];
+    };
+  }[];
 }
