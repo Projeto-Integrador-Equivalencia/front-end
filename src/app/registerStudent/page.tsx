@@ -9,17 +9,17 @@ import Input from "@/components/ui/Input";
 import PasswordInput from "@/components/inputs/PasswordInput";
 import Button from "@/components/ui/Button";
 
-import { registerStudent } from "@/services/register_student";
-
-type Curso = {
-  id: number;
-  codigo: string;
-};
+import { registerStudent } from "@/services/StudentService";
+import { getCourses, type Course } from "@/services/course_service";
+import { useAuth } from "@/hooks/userAuth";
 
 export default function CadastroAlunoPage() {
+  const { token } = useAuth();
+
   const [mensagem, setMensagem] = useState("");
 
-  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [cursos, setCursos] = useState<Course[]>([]);
+  const [carregandoCursos, setCarregandoCursos] = useState(false);
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -44,22 +44,31 @@ export default function CadastroAlunoPage() {
   }>({});
 
   useEffect(() => {
-    async function buscarCursos() {
+    const authToken = token;
+
+    if (!authToken) {
+      setCursos([]);
+      setMensagem("Nao foi possivel carregar cursos sem autenticacao");
+      return;
+    }
+
+    async function buscarCursos(authToken: string) {
+      setCarregandoCursos(true);
+
       try {
-        const response = await fetch("http://localhost:3000/courses");
-
-        const data = await response.json();
-
-        console.log(data);
+        const data = await getCourses(authToken);
 
         setCursos(data);
       } catch (error) {
         console.error(error);
+        setMensagem("Erro ao carregar cursos");
+      } finally {
+        setCarregandoCursos(false);
       }
     }
 
-    buscarCursos();
-  }, []);
+    buscarCursos(authToken);
+  }, [token]);
 
   async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();
@@ -265,16 +274,15 @@ export default function CadastroAlunoPage() {
                         : "border border-gray-300 focus:ring-blue-600"
                     }`}
                   >
-                    <option value="">Selecione</option>
+                    <option value="">
+                      {carregandoCursos ? "Carregando cursos..." : "Selecione"}
+                    </option>
 
-                    <option value="1">DSM</option>
-                    {/*
                     {cursos.map((curso) => (
                       <option key={curso.id} value={curso.id}>
-                        {curso.codigo}
+                        {curso.code} - {curso.name}
                       </option>
                     ))}
-                      */}
                   </select>
 
                   <span

@@ -1,9 +1,11 @@
 import { api } from "./api";
 
-function getAuthHeaders(token: string) {
-  return {
-    Authorization: `Bearer ${token}`,
-  };
+function getAuthHeaders(token?: string) {
+  return token
+    ? {
+        Authorization: `Bearer ${token}`,
+      }
+    : {};
 }
 
 export type CourseShift = "Matutino" | "Vespertino" | "Noturno" | "Integral";
@@ -15,6 +17,9 @@ export interface Course {
   shift: CourseShift;
   code: string;
   createdByAdminId: number;
+  createdByAdminName?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface CourseEntity {
@@ -60,7 +65,7 @@ export interface GetCoursesResponse {
   data: CourseEntity[];
 }
 
-export async function getCourses(token: string): Promise<Course[]> {
+export async function getCourses(token?: string): Promise<Course[]> {
   const response = await api.get<GetCoursesResponse>("/courses", {
     headers: getAuthHeaders(token),
   });

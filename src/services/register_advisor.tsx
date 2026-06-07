@@ -1,23 +1,22 @@
-export async function getCourses() {
-  const response = await fetch("http://localhost:3000/courses");
-
-  const text = await response.text();
-
-  console.log(text);
-
-  if (!response.ok) {
-    throw new Error("Erro ao buscar cursos");
-  }
-
-  return JSON.parse(text);
+interface RegisterAdvisorData {
+  name: string;
+  email: string;
+  cpf: string;
+  password: string;
+  courseId: number;
 }
 
-export async function registerAdvisor(data: any) {
+function getHeaders(token: string) {
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+export async function registerAdvisor(data: RegisterAdvisorData, token: string) {
   const advisorResponse = await fetch("http://localhost:3000/advisors", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getHeaders(token),
     body: JSON.stringify({
       name: data.name,
       email: data.email,
@@ -45,9 +44,7 @@ export async function registerAdvisor(data: any) {
     "http://localhost:3000/advisor-courses",
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getHeaders(token),
       body: JSON.stringify({
         advisorId,
         courseId: data.courseId,

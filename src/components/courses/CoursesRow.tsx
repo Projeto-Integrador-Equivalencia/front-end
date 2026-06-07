@@ -1,15 +1,30 @@
 import TableRow from "@/components/ui/Table/TableRow";
 import TableCell from "@/components/ui/Table/TableCell";
+import type { Course } from "@/services/course_service";
 
-export default function CoursesRow({ item }: any) {
+interface CoursesRowProps {
+  item: Course;
+}
+
+function formatDate(value?: string) {
+  if (!value) return "-";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "-";
+
+  return new Intl.DateTimeFormat("pt-BR").format(date);
+}
+
+export default function CoursesRow({ item }: CoursesRowProps) {
   return (
     <TableRow>
-      <TableCell>{item.nome}</TableCell>
-      <TableCell>{item.codigo}</TableCell>
-      <TableCell>{item.criador}</TableCell>
-      <TableCell>{item.semestre}</TableCell>
-      <TableCell>{item.turno}</TableCell>
-      <TableCell>{item.data}</TableCell>
+      <TableCell>{item.name}</TableCell>
+      <TableCell>{item.code}</TableCell>
+      <TableCell>{item.createdByAdminName ?? item.createdByAdminId}</TableCell>
+      <TableCell>{item.semesterAmount}</TableCell>
+      <TableCell>{item.shift}</TableCell>
+      <TableCell>{formatDate(item.createdAt)}</TableCell>
     </TableRow>
   );
 }
