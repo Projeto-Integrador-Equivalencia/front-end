@@ -1,30 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import BackgroundGradient from "@/components/backgrounds/GradientBackground";
 import CardForm from "@/components/cards/CardForm";
-
-import Input from "@/components/ui/Input";
 import PasswordInput from "@/components/inputs/PasswordInput";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import { registerAdministrator } from "@/services/register_administrator";
 
-import { registerAdvisor } from "@/services/register_advisor";
-import { getCourses, type Course } from "@/services/course_service";
-import { useAuth } from "@/hooks/userAuth";
-
-export default function CadastroOrientadorPage() {
-  const { token } = useAuth();
-
+export default function CadastroAdministradorPage() {
   const [mensagem, setMensagem] = useState("");
-
-  const [cursos, setCursos] = useState<Course[]>([]);
-  const [carregandoCursos, setCarregandoCursos] = useState(false);
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
-  const [idCurso, setIdCurso] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmSenha, setConfirmSenha] = useState("");
 
@@ -32,46 +22,19 @@ export default function CadastroOrientadorPage() {
     nome?: string;
     email?: string;
     cpf?: string;
-    idCurso?: string;
     senha?: string;
     confirmSenha?: string;
   }>({});
 
-  useEffect(() => {
-    const authToken = token;
-
-    if (!authToken) return;
-
-    async function buscarCursos(authToken: string) {
-      setCarregandoCursos(true);
-
-      try {
-        const cursosEncontrados = await getCourses(authToken);
-
-        console.log(cursosEncontrados);
-
-        setCursos(cursosEncontrados);
-      } catch (error) {
-        console.error(error);
-        setMensagem("Erro ao carregar cursos");
-      } finally {
-        setCarregandoCursos(false);
-      }
-    }
-
-    buscarCursos(authToken);
-  }, [token]);
-
   async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!nome || !email || !cpf || !idCurso || !senha || !confirmSenha) {
+    if (!nome || !email || !cpf || !senha || !confirmSenha) {
       setErrors({
-        nome: !nome ? "Campo obrigatório" : undefined,
-        email: !email ? "Campo obrigatório" : undefined,
-        cpf: !cpf ? "Campo obrigatório" : undefined,
-        idCurso: !idCurso ? "Campo obrigatório" : undefined,
-        senha: !senha ? "Campo obrigatório" : undefined,
+        nome: !nome ? "Campo obrigatorio" : undefined,
+        email: !email ? "Campo obrigatorio" : undefined,
+        cpf: !cpf ? "Campo obrigatorio" : undefined,
+        senha: !senha ? "Campo obrigatorio" : undefined,
         confirmSenha: !confirmSenha ? "Campo obrigatório" : undefined,
       });
 
@@ -87,28 +50,18 @@ export default function CadastroOrientadorPage() {
     }
 
     try {
-      if (!token) {
-        setMensagem("Administrador nao autenticado");
-        return;
-      }
+      await registerAdministrator({
+        name: nome,
+        email,
+        cpf,
+        password: senha,
+      });
 
-      await registerAdvisor(
-        {
-          name: nome,
-          email,
-          cpf,
-          courseId: Number(idCurso),
-          password: senha,
-        },
-        token,
-      );
-
-      setMensagem("Orientador cadastrado com sucesso!");
+      setMensagem("Administrador cadastrado com sucesso!");
 
       setNome("");
       setEmail("");
       setCpf("");
-      setIdCurso("");
       setSenha("");
       setConfirmSenha("");
 
@@ -122,13 +75,13 @@ export default function CadastroOrientadorPage() {
   return (
     <BackgroundGradient>
       <div className="flex flex-col items-center w-full">
-        <header className="text-left w-full mb-8 sm:w-[80%]">
+        <header className="text-left w-full mb-1 sm:w-[80%]">
           <p className="text-gray-600 uppercase text-sm font-bold tracking-tight">
             Preencha os dados
           </p>
 
           <h1 className="text-4xl font-bold">
-            Cadastro de orientador
+            Cadastro de administrador
             <span className="text-red-600">.</span>
           </h1>
         </header>
@@ -136,18 +89,18 @@ export default function CadastroOrientadorPage() {
         <CardForm>
           <form
             onSubmit={handleCadastro}
-            className="flex flex-col items-start w-full max-w-5xl space-y-5"
+            className="flex flex-col items-start w-full max-w-5xl space-y-1"
           >
-            <div className="flex items-center gap-2 mb-3 mt-3">
+            <div className="flex items-center gap-2 mb-1 mt-1">
               <div className="w-1 h-3 bg-red-600 rounded-full"></div>
 
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-800">
-                Dados do Orientador
+                Dados do Administrador
               </span>
             </div>
 
-            <div className="w-full space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="w-full space-y-1">
+              <div className="flex flex-col gap-1 w-full">
                 <Input
                   label="Nome"
                   placeholder="Digite o nome"
@@ -156,7 +109,7 @@ export default function CadastroOrientadorPage() {
                   onBlur={() => {
                     setErrors((prev) => ({
                       ...prev,
-                      nome: !nome ? "Campo obrigatório" : undefined,
+                      nome: !nome ? "Campo obrigatorio" : undefined,
                     }));
                   }}
                   error={errors.nome}
@@ -171,14 +124,11 @@ export default function CadastroOrientadorPage() {
                   onBlur={() => {
                     setErrors((prev) => ({
                       ...prev,
-                      email: !email ? "Campo obrigatório" : undefined,
+                      email: !email ? "Campo obrigatorio" : undefined,
                     }));
                   }}
                   error={errors.email}
                 />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <Input
                   label="CPF"
                   type="tel"
@@ -189,51 +139,11 @@ export default function CadastroOrientadorPage() {
                   onBlur={() => {
                     setErrors((prev) => ({
                       ...prev,
-                      cpf: !cpf ? "Campo obrigatório" : undefined,
+                      cpf: !cpf ? "Campo obrigatorio" : undefined,
                     }));
                   }}
                   error={errors.cpf}
                 />
-
-                <div className="w-full">
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="curso">Curso vinculado</label>
-
-                    <select
-                      id="curso"
-                      value={idCurso}
-                      onChange={(e) => setIdCurso(e.target.value)}
-                      className={`font-semibold focus:outline-none focus:ring-2 rounded-md p-2 w-full bg-(--c01)
-                    ${
-                      errors.idCurso
-                        ? "border border-red-500 focus:ring-red-500"
-                        : "border border-gray-300 focus:ring-blue-600"
-                    }`}
-                    >
-                      <option value="">
-                        {carregandoCursos
-                          ? "Carregando cursos..."
-                          : "Selecione"}
-                      </option>
-
-                      {cursos.map((curso) => (
-                        <option key={curso.id} value={curso.id}>
-                          {curso.code} - {curso.name}
-                        </option>
-                      ))}
-                    </select>
-
-                    <span
-                      className={`block text-sm min-h-5 ${
-                        errors.idCurso
-                          ? "text-red-500 opacity-100"
-                          : "opacity-0"
-                      }`}
-                    >
-                      {errors.idCurso || " "}
-                    </span>
-                  </div>
-                </div>
 
                 <PasswordInput
                   label="Senha"
@@ -243,11 +153,12 @@ export default function CadastroOrientadorPage() {
                   onBlur={() => {
                     setErrors((prev) => ({
                       ...prev,
-                      senha: !senha ? "Campo obrigatório" : undefined,
+                      senha: !senha ? "Campo obrigatorio" : undefined,
                     }));
                   }}
                   error={errors.senha}
                 />
+
                 <PasswordInput
                   label="Confirmar Senha"
                   placeholder="Confirme sua senha"
