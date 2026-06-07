@@ -7,6 +7,7 @@ import BackgroundGradient from "@/components/backgrounds/GradientBackground";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/userAuth";
+import Link from "next/link";
 //import { loginRedirect } from "@/services/authService";
 
 export default function LoginPage() {
@@ -97,18 +98,18 @@ export default function LoginPage() {
                   error={errors.senha}
                 />
                 <div className="w-full flex justify-end items-center gap-x-97 mt-1">
-                  <a
-                    href="#"
+                  <Link
+                    href="/recuperarSenha" 
                     className="text-[10px] text-blue-600 hover:underline font-medium"
                   >
                     Recuperar Senha
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    href="/registerStudent" 
                     className="text-[10px] text-blue-600 hover:underline font-medium"
                   >
                     Não possui uma conta?
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
