@@ -102,7 +102,7 @@ export default function Page() {
             </svg>
             <span>Voltar ao Dashboard</span>
           </Link>
-          <Link href="/administrator/courseRegister">
+          <Link href="./courseList/courseRegister">
             <Button label="Criar novo curso" variant="primary" />
           </Link>
         </div>

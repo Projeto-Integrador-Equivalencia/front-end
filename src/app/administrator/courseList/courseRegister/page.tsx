@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import { registerCourse, type CourseShift } from "@/services/course_service";
 
 import { useAuth } from "@/hooks/userAuth";
+import Link from "next/link";
 
 export default function CadastroCursoPage() {
   const { user, token } = useAuth();
@@ -76,9 +77,11 @@ export default function CadastroCursoPage() {
     <BackgroundGradient>
       <div className="flex flex-col items-center w-full">
         <header className="text-left w-full mb-8 sm:w-[80%]">
-          <button className="flex items-center gap-2 text-sm font-medium text-zinc-700 mb-4 hover:opacity-80">
-            ← Voltar para Cursos
-          </button>
+          <Link href="./">
+            <button className="flex items-center gap-2 text-sm font-medium text-zinc-700 mb-4 hover:opacity-80">
+              ← Voltar para Cursos
+            </button>
+          </Link>
 
           <h1 className="text-3xl font-bold text-zinc-900">
             Preencha os campos necessários para criação do curso
