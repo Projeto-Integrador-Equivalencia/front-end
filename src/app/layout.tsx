@@ -12,10 +12,12 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className="min-h-screen flex flex-col m-0 p-0">
+        <AuthProvider>
         <Header />
         <main>
-          <AuthProvider>{children}</AuthProvider>
+          {children}
         </main>
+        </AuthProvider>
         <Footer />
       </body>
     </html>
