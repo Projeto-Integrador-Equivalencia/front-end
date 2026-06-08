@@ -1,62 +1,33 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+interface EquivalencySelectProps {
+  value: string;
+  onChange: (value: string) => void;
+}
 
-export default function EquivalencySelect() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const routes: Record<string, string> = {
-    CTPS: "/student/equivalency/ctps_equivalency",
-
-    Militar: "/student/equivalency/military_equivalency",
-
-    "Autônomo Inscrito":
-      "/student/equivalency/self_employed_registered_equivalency",
-
-    "Autônomo não Inscrito":
-      "/student/equivalency/self_employed_unregistered_equivalency",
-
-    Empresario:
-      "/student/equivalency/owner_equivalency",
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selected = e.target.value;
-
-    if (routes[selected]) {
-      router.push(routes[selected]);
-    }
-  };
-
-  const currentValue =
-    Object.keys(routes).find(
-      (key) => routes[key] === pathname
-    ) || "CTPS";
+export default function EquivalencySelect({value, onChange}: EquivalencySelectProps) {
+  const opcoes = [
+    { value: "CTPS", label: "CTPS" },
+    { value: "Militar", label: "Militar" },
+    { value: "Autônomo Inscrito", label: "Autônomo Inscrito" },
+    { value: "Autônomo Não Inscrito", label: "Autônomo Não Inscrito" },
+    { value: "Proprietário", label: "Proprietário" }
+  ];
 
   return (
     <select
-      value={currentValue}
-      onChange={handleChange}
-      className="w-full p-3 rounded-lg bg-white text-sm text-zinc-800 outline-none"
-    >
-      <option value="CTPS">CTPS</option>
-
-      <option value="Militar">Militar</option>
-
-      <option value="Autônomo Inscrito">
-        Autônomo Inscrito
-      </option>
-
-      <option value="Autônomo não Inscrito">
-        Autônomo não Inscrito
-      </option>
-
-      <option value="Empresario">
-        Empresário
-      </option>
-    </select>
+        id="equivalencia-select"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full p-3 rounded-lg bg-white text-sm text-zinc-800 outline-none"
+      >
+        <option value="">-- Selecione o tipo para envio de arquivos --</option>
+        
+        {opcoes.map((opcao) => (
+          <option key={opcao.value} value={opcao.value}>
+            {opcao.label}
+          </option>
+        ))}
+      </select>
   );
 }

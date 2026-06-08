@@ -4,6 +4,7 @@ import "@/app/globals.css";
 interface PropsUpload {
   id: string;
   text: string;
+  name: string;
   className?: string;
 }
 
@@ -46,6 +47,7 @@ function AddIcon() {
 export function UploadButton({
   id,
   text,
+  name,
   className,
 }: PropsUpload) {
 
@@ -74,7 +76,7 @@ export function UploadButton({
 
       <input
         type="file"
-        name={id}
+        name={name}
         id={id}
         className="hidden"
         accept="image/*,.pdf"

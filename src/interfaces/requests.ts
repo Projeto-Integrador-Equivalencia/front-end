@@ -67,7 +67,7 @@ export interface CreateExperienceInput {
   role: string;
   cnpj: string;
   startDate: string; // Formato YYYY-MM-DD
-  endDate: string;   // Formato YYYY-MM-DD
+  endDate: string; // Formato YYYY-MM-DD
 }
 
 // Payload completo enviado no método POST (antes de montar o FormData)
