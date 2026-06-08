@@ -4,7 +4,6 @@ import {
   CreateRequestResponse,
 } from "@/interfaces/requests";
 import { api } from "@/services/api";
-import { headers } from "next/headers";
 
 export async function createRequest(
   param: CreateRequestInput,
@@ -36,37 +35,62 @@ export async function createRequest(
     },
   );
   return response.data;
-
-  //const response = await api.post<CreateRequestResponse>("/requests/",param);
-  //console.log("Resposta bruta do Axios:", response);
-  //console.log("Dados que serão retornados (.data):", response.data);
 }
 
 export async function getRequestById(
   id: number | string,
+  token: string,
 ): Promise<getRequestInfo> {
-  const response = await api.get<getRequestInfo>(`/requests/${id}`);
-  console.log("Resposta bruta do Axios:", response);
-  console.log("Dados que serão retornados (.data):", response.data);
+  const response = await api.get<getRequestInfo>(`/requests/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 }
 
-export async function deleteRequestById(id: number | string): Promise<void> {
-  const response = await api.delete<void>(`/requests/${id}`);
+import { RequestListItem } from "@/interfaces/requests";
+
+export async function requestGetByStudentId(
+  id: number | string,
+  token: string,
+): Promise<RequestListItem[]> {
+  const response = await api.get<{ data: RequestListItem[] }>(
+    `/requests/student/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data.data;
+}
+
+export async function deleteRequestById(
+  id: number | string,
+  token: string,
+): Promise<void> {
+  const response = await api.delete<void>(`/requests/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 }
 
 export async function assignAdvisorToRequest(
   id: number | string,
+  token: string,
 ): Promise<void> {
-  const response = await api.patch<void>(`/requests/${id}`);
+  const response = await api.patch<void>(
+    `/requests/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   return response.data;
 }
-
-//export async function getRequestByStudentId(id: number | string): Promise<GetRequestsListByStudentIdResponse>{
-//  const response = await api.get<GetRequestsListByStudentIdResponse>(`/requests/student/${id}`);
-//  console.log("Resposta bruta do Axios:", response);
-//  console.log("Dados que serão retornados (.data):", response.data);
-//  return response.data;
-//
-//}
