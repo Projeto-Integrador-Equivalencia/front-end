@@ -1,5 +1,5 @@
-'use client';
-import React, { useState} from "react";
+"use client";
+import React, { useState } from "react";
 import Table from "@/components/ui/Table/Table";
 import SolicitationsRow from "./SolicitationsRow";
 import EmptyState from "@/components/ui/Table/EmptyState";
@@ -13,7 +13,7 @@ export default function SolicitationsTable({ data }: any) {
     "Status",
     "Orientador",
     "Protocolo",
-    "Criado em"
+    "Criado em",
   ];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -31,14 +31,14 @@ export default function SolicitationsTable({ data }: any) {
   return (
     <div>
       <div>
-       <TableHeader columns={ColunasTabela} />
-       <Table>
-         {currentData.map((item: any) => (
-           <SolicitationsRow key={item.protocolo} item={item} />
-         ))}
-       </Table>
+        <TableHeader columns={ColunasTabela} />
+        <Table>
+          {currentData.map((item: any) => (
+            <SolicitationsRow key={item.Protocolo} item={item} />
+          ))}
+        </Table>
       </div>
-        
+
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4">
           <span className="text-sm text-gray-600">
