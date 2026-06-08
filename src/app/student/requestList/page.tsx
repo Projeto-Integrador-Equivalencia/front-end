@@ -5,6 +5,8 @@ import SolicitationsTable from "@/components/solicitations/SolicitationsTable";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import { useAuth } from "@/hooks/userAuth";
 import { getRequestInfo } from "@/interfaces/requests";
+import { getAdvisorById } from "@/services/AdvisorService";
+import { getEquivalencies } from "@/services/equivalencyService";
 import { requestGetByStudentId } from "@/services/requestService";
 import { getStudentById } from "@/services/StudentService";
 import { request } from "http";
@@ -50,20 +52,30 @@ export default function Page() {
         }
 
         function getAdvisorName(advisorId: number) {
-          /*if (!advisorNameRequests.has(advisorId)) {
-            studentNameRequests.set(
+          if (!advisorNameRequests.has(advisorId)) {
+            advisorNameRequests.set(
               advisorId,
-              //getAdvisorById(advisorId, authToken).then(
-              //  (advisor) => advisor.name,
-                
+              getAdvisorById(advisorId, authToken).then(
+                (advisor) => advisor.name,
               ),
             );
           }
 
-          return advisorNameRequests.get(advisorId)!;*/
+          return advisorNameRequests.get(advisorId)!;
         }
 
-        function getEquivalence(equivalenceId: number) {}
+        function getEquivalence(equivalenceId: number) {
+          if (!equivalenceNameRequests.has(equivalenceId)) {
+            equivalenceNameRequests.set(
+              equivalenceId,
+              getStudentById(equivalenceId, authToken).then(
+                (equivalence) => equivalence.name,
+              ),
+            );
+          }
+
+          return equivalenceNameRequests.get(equivalenceId)!;
+        }
 
         const req = await Promise.all(
           requestsEncontradas.map(async (req) => {
@@ -71,9 +83,6 @@ export default function Page() {
               const studentName = await getStudentName(user?.id ?? 12);
               const advisorName = await getAdvisorName(req.advisorId ?? 1);
               const equivalence = await getEquivalence(req.equivalencyId);
-              //const advisorName = "Fudêncio";
-              //const equivalence = "Não";
-              console.log("=====================================");
               console.log(req);
               console.log(req.advisorId);
               console.log(equivalence);
@@ -88,7 +97,7 @@ export default function Page() {
           }),
         );
 
-        setRequests(req);
+        setRequests(req as unknown as getRequestInfo[]);
       } catch (error) {
         console.error(error);
         setError("Erro ao carregar cursos");
