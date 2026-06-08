@@ -1,5 +1,8 @@
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
+import AttachedFiles from "@/components/solicitations/AttachedFiles";
+import SolicitationDetails from "@/components/solicitations/SolicitationDetails";
+import ActionHistory from "@/components/ui/ActionHistory";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import Link from "next/link";
 
@@ -33,11 +36,11 @@ export default function Page() {
           <span>Sair da conta</span>
         </Link>
         <CardWhite>
-            <p>aaaaaaaaaaaa</p>
+            <SolicitationDetails/>
             <hr className="my-6 border-gray-200" />
-            <p>aaaaaaaaaaaa</p>
+            <AttachedFiles documentos={[]}/>
             <hr className="my-6 border-gray-200" />
-            
+            <ActionHistory/>
         </CardWhite>
         <div>
           <DecorativeDots variant="bottom" />
