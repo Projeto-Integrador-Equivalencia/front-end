@@ -2,22 +2,9 @@
 import BackgroundWhiteRed from "@/components/backgrounds/WhiteRedBackground";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Modal from "@/components/ui/modal";
-import Button from "@/components/ui/Button";
 
 export default function StudentDashboard() {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const ctpsEquivalencyButton = () =>
-    router.push("/student/equivalency/ctps_equivalency");
-  const militaryEquivalencyButton = () =>
-    router.push("/student/equivalency/military_equivalency");
-  const ownerEquivalencyButton = () =>
-    router.push("/student/equivalency/owner_equivalency");
-  const selfEmployedRegisteredEquivalencyButton = () =>
-    router.push("/student/equivalency/self_employed_registered_equivalency");
-  const selfEmployedUnregisteredEquivalencyButton = () =>
-    router.push("/student/equivalency/self_employed_unregistered_equivalency");
 
   return (
     <BackgroundWhiteRed>
@@ -29,7 +16,7 @@ export default function StudentDashboard() {
           </h1>
         </header>
         <div className="flex justify-center space-x-50">
-          <button onClick={() => setIsModalOpen(true)}>
+          <button onClick={() => router.push("./equivalency")}>
             <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
               <div className="flex justify-center">
                 <svg
@@ -138,45 +125,6 @@ export default function StudentDashboard() {
           </button>
         </div>
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Escolha o tipo de equivalência!"
-      >
-        <div className="flex flex-col gap-1">
-          <Button
-            label="CTPS"
-            type="button"
-            variant="primary"
-            onClick={ctpsEquivalencyButton}
-          />
-          <Button
-            label="Militar"
-            type="button"
-            variant="primary"
-            onClick={militaryEquivalencyButton}
-          />
-          <Button
-            label="Aluno proprietario"
-            type="button"
-            variant="primary"
-            onClick={ownerEquivalencyButton}
-          />
-          <Button
-            label="Autônomo inscrito"
-            type="button"
-            variant="primary"
-            onClick={selfEmployedRegisteredEquivalencyButton}
-          />
-          <Button
-            label="Autônomo não inscrito"
-            type="button"
-            variant="primary"
-            onClick={selfEmployedUnregisteredEquivalencyButton}
-          />
-        </div>
-      </Modal>
     </BackgroundWhiteRed>
   );
 }
