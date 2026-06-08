@@ -47,7 +47,6 @@ export default function CadastroAlunoPage() {
     async function buscarCursos() {
       setCarregandoCursos(true);
       try {
-        // Chamada limpa, sem passar token
         const data = await getCourses();
         setCursos(data);
       } catch (error) {
