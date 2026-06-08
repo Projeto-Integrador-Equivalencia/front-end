@@ -34,6 +34,20 @@ export interface LogProps {
 // GET REQUEST BY ID
 // ==========================================
 
+export interface Request {
+  id: number;
+  protocol: string;
+  status: string;
+  observation: string;
+  studentId: number;
+  advisorId: number | null;
+  equivalencyId: number;
+  createdAt: string;
+  updatedAt: string;
+  Documents: Documento[];
+  Professional_Experience: ExperienciaProfissional[];
+}
+
 export interface getRequestInfo {
   status: string;
   data: {
