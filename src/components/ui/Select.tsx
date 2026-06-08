@@ -13,12 +13,19 @@ export type OptionProps = {
   className?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
+<<<<<<< HEAD
 export function Option({ id, value, className, children }: OptionProps) {
   return (
     <option id={id} value={value} className={className}>
       {children}
     </option>
   );
+=======
+    name?: string,
+    children?: React.ReactNode,
+    label: string
+    value?: string | number | undefined
+>>>>>>> 2e02785 (Ajustado value do componente select)
 }
 
 function Rect() {
@@ -39,6 +46,7 @@ function Rect() {
   );
 }
 
+<<<<<<< HEAD
 export function Select({ label, id, className, children }: SelectProps) {
   return (
     <div className="flex flex-col gap-1">
@@ -62,3 +70,22 @@ export function Select({ label, id, className, children }: SelectProps) {
     </div>
   );
 }
+=======
+function Option({ id, value, children }: OptionProps) {
+    return <option id={id} defaultValue={value}>{children}</option>;
+}
+
+function Select({ label, value, children, disabled = false, autofocus = false, multiple = false }: SelectProps) {
+
+    return (
+        <div>
+            <label className=""> {label}</label >
+            <select value={value} disabled={disabled} autoFocus={autofocus} multiple={multiple}>
+                {children}
+            </select>
+        </div >
+    )
+}
+
+export { Select, Option }
+>>>>>>> 2e02785 (Ajustado value do componente select)

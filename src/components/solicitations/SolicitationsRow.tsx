@@ -8,20 +8,32 @@ const estilosStatus = {
   pendente: "bg-yellow-500 text-yellow-900",
 };
 
+function formatDate(value?: string) {
+  if (!value) return "-";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "-";
+
+  return new Intl.DateTimeFormat("pt-BR").format(date);
+}
+
 export default function SolicitationsRow({ item }: any) {
-  const statusFormatado = item.status?.toLowerCase() as keyof typeof estilosStatus;
-  const estiloDinamico = estilosStatus[statusFormatado] || "bg-gray-200 text-gray-800";
+  const statusFormatado =
+    item.status?.toLowerCase() as keyof typeof estilosStatus;
+  const estiloDinamico =
+    estilosStatus[statusFormatado] || "bg-gray-200 text-gray-800";
 
   return (
     <TableRow>
-      <TableCell>{item.tipo}</TableCell>
-      <TableCell>{item.nomeAluno}</TableCell>
+      <TableCell>{item.equivalence}</TableCell>
+      <TableCell>{item.studentName}</TableCell>
       <TableCell className={`rounded-sm px-2 py-1 w-fit ${estiloDinamico}`}>
         {item.status}
       </TableCell>
-      <TableCell>{item.orientador}</TableCell>
-      <TableCell>{item.protocolo}</TableCell>
-      <TableCell>{item.data}</TableCell>
+      <TableCell>{item.advisorName}</TableCell>
+      <TableCell>{item.protocol}</TableCell>
+      <TableCell>{formatDate(item.createdAt)}</TableCell>
     </TableRow>
   );
 }
