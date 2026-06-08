@@ -61,8 +61,9 @@ export default function Page() {
 
   useEffect(() => {
     if (!user || !user.id || !token) return;
-
+console.log(user.id)
     const advisorId = user.id;
+    console.log(user.id)
     const courseId =
       (user as any).courseId || (user as any).props?.courseId || 1;
 

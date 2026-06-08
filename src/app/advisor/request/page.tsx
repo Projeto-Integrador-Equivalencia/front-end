@@ -40,7 +40,7 @@ export default function Page() {
             <hr className="my-6 border-gray-200" />
             <AttachedFiles documentos={[]}/>
             <hr className="my-6 border-gray-200" />
-            <ActionHistory/>
+            <ActionHistory requestId={""}/>
         </CardWhite>
         <div>
           <DecorativeDots variant="bottom" />
