@@ -1,29 +1,66 @@
 "use client";
+
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
 import SolicitationsTable from "@/components/solicitations/SolicitationsTable";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import { useAuth } from "@/hooks/userAuth";
-import { getRequestInfo } from "@/interfaces/requests";
 import { getAdvisorById } from "@/services/AdvisorService";
 import { getEquivalencies } from "@/services/equivalencyService";
 import { requestGetByStudentId } from "@/services/requestService";
 import { getStudentById } from "@/services/StudentService";
-import { request } from "http";
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+export interface Documento {
+  id: number;
+  requestId: number;
+  path: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ExperienciaProfissional {
+  id: number;
+  role: string;
+  cnpj: string;
+  startDate: string;
+  endDate: string;
+  requestId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RequestListItem {
+  props: {
+    id: number;
+    protocol: string;
+    status: string;
+    observation: string;
+    studentId: number;
+    advisorId: number | null;
+    equivalencyId: number;
+    createdAt: string;
+    updatedAt: string;
+    Documents: Documento[];
+    Professional_Experience: ExperienciaProfissional[];
+  };
+}
+
+interface RequestComNomes extends RequestListItem {
+  studentName?: string;
+  advisorName?: string;
+  equivalence?: string;
+}
 
 export default function Page() {
   const { token, user } = useAuth();
-  const [requests, setRequests] = useState<getRequestInfo[]>([]);
+  const [requests, setRequests] = useState<RequestComNomes[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const authToken = token;
-
-    if (!user) return;
-    if (!authToken) return;
+    if (!user || !user.id || !token) return;
 
     async function buscarSolicitacoes(authToken: string) {
       setLoading(true);
@@ -31,9 +68,10 @@ export default function Page() {
 
       try {
         const requestsEncontradas = await requestGetByStudentId(
-          user?.id ?? 1,
+          user!.id,
           authToken,
         );
+
         const advisorNameRequests = new Map<number, Promise<string>>();
         const studentNameRequests = new Map<number, Promise<string>>();
         const equivalenceNameRequests = new Map<number, Promise<string>>();
@@ -47,7 +85,6 @@ export default function Page() {
               ),
             );
           }
-
           return studentNameRequests.get(studentId)!;
         }
 
@@ -60,7 +97,6 @@ export default function Page() {
               ),
             );
           }
-
           return advisorNameRequests.get(advisorId)!;
         }
 
@@ -68,46 +104,61 @@ export default function Page() {
           if (!equivalenceNameRequests.has(equivalenceId)) {
             equivalenceNameRequests.set(
               equivalenceId,
-              getStudentById(equivalenceId, authToken).then(
-                (equivalence) => equivalence.name,
-              ),
+              getEquivalencies(authToken).then((res: any) => {
+                const lista = Array.isArray(res) ? res : res?.data || [];
+
+                const eq = lista.find((item: any) => {
+                  const id = item?.props?.id ?? item?.id;
+                  return id === equivalenceId;
+                });
+
+                if (eq) {
+                  return eq.props?.name ?? eq.name ?? "Sem nome";
+                }
+
+                return "Não encontrada";
+              }),
             );
           }
-
           return equivalenceNameRequests.get(equivalenceId)!;
         }
 
         const req = await Promise.all(
-          requestsEncontradas.map(async (req) => {
+          requestsEncontradas.map(async (item) => {
             try {
-              const studentName = await getStudentName(user?.id ?? 12);
-              const advisorName = await getAdvisorName(req.advisorId ?? 1);
-              const equivalence = await getEquivalence(req.equivalencyId);
-              console.log(req);
-              console.log(req.advisorId);
-              console.log(equivalence);
-              console.log(req.equivalencyId);
-              console.log(advisorName);
+              const props = item.props;
 
-              return { ...req, studentName, advisorName, equivalence };
-            } catch (error) {
-              console.error(error);
-              return req;
+              if (!props) return item;
+
+              const studentName = await getStudentName(
+                props.studentId ?? user!.id,
+              );
+              const advisorName = props.advisorId
+                ? await getAdvisorName(props.advisorId)
+                : "Não atribuído";
+              const equivalence = props.equivalencyId
+                ? await getEquivalence(props.equivalencyId)
+                : "Não especificada";
+
+              return { ...item, studentName, advisorName, equivalence };
+            } catch (err) {
+              console.error("Erro ao processar detalhes da solicitação:", err);
+              return item;
             }
           }),
         );
 
-        setRequests(req as unknown as getRequestInfo[]);
-      } catch (error) {
-        console.error(error);
-        setError("Erro ao carregar cursos");
+        setRequests(req);
+      } catch (err) {
+        console.error(err);
+        setError("Erro ao carregar solicitações");
       } finally {
         setLoading(false);
       }
     }
 
-    buscarSolicitacoes(authToken);
-  }, [token]);
+    buscarSolicitacoes(token);
+  }, [token, user]);
 
   return (
     <div className="bg-c02">
@@ -115,12 +166,11 @@ export default function Page() {
         description="Visualize as solicitações realizadas"
         title="Minhas Solicitações."
       />
-      <div className="pb-16 pt-16 grid size-full grid-cols-* gap-* place-items-center ">
+      <div className="pb-16 pt-16 grid size-full grid-cols-1 place-items-center">
         <Link
-          href="dashboard/"
-          className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm w-fit select-none"
+          href="/dashboard"
+          className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm w-fit select-none mb-4"
         >
-          {/* Ícone de Seta para a Esquerda integrado de forma nativa */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -144,9 +194,13 @@ export default function Page() {
             </p>
           )}
 
-          {!loading && !error && (
-            <SolicitationsTable data={requests}></SolicitationsTable>
+          {error && (
+            <p className="py-20 text-center font-semibold text-red-500">
+              {error}
+            </p>
           )}
+
+          {!loading && !error && <SolicitationsTable data={requests} />}
         </CardWhite>
         <div>
           <DecorativeDots variant="bottom" />

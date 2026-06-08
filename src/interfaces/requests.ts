@@ -1,7 +1,3 @@
-// ==========================================
-// ENTIDADES E SUB-PROPS (REUTILIZÁVEIS)
-// ==========================================
-
 export interface Documento {
   id: number;
   requestId: number;
@@ -30,22 +26,20 @@ export interface LogProps {
   createdAt: string;
 }
 
-// ==========================================
-// GET REQUEST BY ID
-// ==========================================
-
-export interface Request {
-  id: number;
-  protocol: string;
-  status: string;
-  observation: string;
-  studentId: number;
-  advisorId: number | null;
-  equivalencyId: number;
-  createdAt: string;
-  updatedAt: string;
-  Documents: Documento[];
-  Professional_Experience: ExperienciaProfissional[];
+export interface RequestListItem {
+  props: {
+    id: number;
+    protocol: string;
+    status: string;
+    observation: string;
+    studentId: number;
+    advisorId: number | null;
+    equivalencyId: number;
+    createdAt: string;
+    updatedAt: string;
+    Documents: Documento[];
+    Professional_Experience: ExperienciaProfissional[];
+  };
 }
 
 export interface getRequestInfo {
@@ -72,28 +66,21 @@ export interface getRequestInfo {
   };
 }
 
-// ==========================================
-// POST CREATE REQUEST (NOVAS INTERFACES)
-// ==========================================
-
-// Payload de entrada para a criação de uma experiência
 export interface CreateExperienceInput {
   role: string;
   cnpj: string;
-  startDate: string; // Formato YYYY-MM-DD
-  endDate: string; // Formato YYYY-MM-DD
+  startDate: string;
+  endDate: string;
 }
 
-// Payload completo enviado no método POST (antes de montar o FormData)
 export interface CreateRequestInput {
   studentId: number;
   equivalencyId: number;
   advisorId: number | null;
   experiences: CreateExperienceInput[];
-  files: File[]; // Array de arquivos vindos do input tipo file
+  files: File[];
 }
 
-// Resposta da API ao criar uma requisição com sucesso
 export interface CreateRequestResponse {
   status: string;
   data: {
@@ -106,8 +93,8 @@ export interface CreateRequestResponse {
       status: string;
       observation: string;
       Documents: Documento[];
-      updatedAt: string; // ISO Date String
-      createdAt: string; // ISO Date String
+      updatedAt: string;
+      createdAt: string;
     };
   };
 }

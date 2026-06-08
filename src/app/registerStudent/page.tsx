@@ -44,20 +44,11 @@ export default function CadastroAlunoPage() {
   }>({});
 
   useEffect(() => {
-    const authToken = token;
-
-    if (!authToken) {
-      setCursos([]);
-      setMensagem("Nao foi possivel carregar cursos sem autenticacao");
-      return;
-    }
-
-    async function buscarCursos(authToken: string) {
+    async function buscarCursos() {
       setCarregandoCursos(true);
-
       try {
-        const data = await getCourses(authToken);
-
+        // Chamada limpa, sem passar token
+        const data = await getCourses();
         setCursos(data);
       } catch (error) {
         console.error(error);
@@ -67,8 +58,8 @@ export default function CadastroAlunoPage() {
       }
     }
 
-    buscarCursos(authToken);
-  }, [token]);
+    buscarCursos();
+  }, []); // Array de dependências vazio para rodar apenas uma vez na montagem da página
 
   async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();

@@ -33,8 +33,8 @@ export default function SolicitationsTable({ data }: any) {
       <div>
         <TableHeader columns={ColunasTabela} />
         <Table>
-          {currentData.map((item: any) => (
-            <SolicitationsRow key={item.Protocolo} item={item} />
+          {currentData.map((item: any, index: number) => (
+            <SolicitationsRow key={`solicitacao-${index}`} item={item} />
           ))}
         </Table>
       </div>
