@@ -6,7 +6,10 @@ import EmptyState from "@/components/ui/Table/EmptyState";
 import TableHeader from "../ui/Table/TableHeader";
 
 export default function SolicitationsTable({ data }: any) {
-  if (!data.length) return <EmptyState />;
+ 
+  if (!data || !data.length) return <EmptyState />;
+
+  // 2. Adicionada a coluna "Ações" para alinhar com o botão de Visualizar
   const ColunasTabela = [
     "Equivalência",
     "Aluno",
@@ -14,13 +17,16 @@ export default function SolicitationsTable({ data }: any) {
     "Orientador",
     "Protocolo",
     "Criado em",
+    "Ações", 
   ];
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = data.slice(startIndex, endIndex);
+
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
@@ -34,6 +40,7 @@ export default function SolicitationsTable({ data }: any) {
         <TableHeader columns={ColunasTabela} />
         <Table>
           {currentData.map((item: any, index: number) => (
+            // O seu SolicitationsRow agora vai encaixar perfeitamente aqui com as 7 colunas
             <SolicitationsRow key={`solicitacao-${index}`} item={item} />
           ))}
         </Table>

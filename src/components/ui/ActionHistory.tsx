@@ -9,16 +9,15 @@ export interface AcaoHistorico {
 }
 
 interface ActionHistoryProps {
-  historico?: AcaoHistorico[];
+  requestId: string | number;
+  historico?: any[];
   titulo?: string;
 }
 
-export default function ActionHistory({ historico, titulo = "Histórico de Ações" }: ActionHistoryProps) {
+export default function ActionHistory({ requestId, historico = [] }: ActionHistoryProps){
 
-  const listaAcoes = historico || [
-    { id: 1, data: "8, Fev, 2026", acao: "Solicitação Criada", autor: "Guilherme Briggs", tipoStatus: "criado" },
-    { id: 2, data: "10, Fev, 2026", acao: "Em Análise", autor: "João Silva", tipoStatus: "analise" },
-    { id: 3, data: "12, Fev, 2026", acao: "Aprovado", autor: "João Silva", tipoStatus: "aprovado" }
+ const listaDeAcoes = historico.length > 0 ? historico : [
+    { data: "08, Fev, 2026", acao: "Solicitação Criada", autor: "Guilherme" }
   ];
 
 
@@ -61,7 +60,7 @@ export default function ActionHistory({ historico, titulo = "Histórico de Açõ
   return (
     <div className="w-full max-w-6xl mx-auto my-6 font-sans">
       {/* Título */}
-      <h2 className="text-xl font-bold text-gray-900 mb-6">{titulo}</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">Histórico de Ações</h2>
 
       {/* Container da Timeline */}
       <div className="relative flex flex-col pl-2">
@@ -70,7 +69,7 @@ export default function ActionHistory({ historico, titulo = "Histórico de Açõ
         <div className="absolute left-4.25 top-3 bottom-3 w-px bg-gray-200 z-0" />
 
         {/* Mapeamento dos itens */}
-        {listaAcoes.map((item, index) => (
+        {listaDeAcoes.map((item, index) => (
           <div 
             key={item.id || index} 
             className="flex flex-col sm:flex-row sm:items-center items-start gap-4 sm:gap-12 relative py-4 first:pt-0 last:pb-0"

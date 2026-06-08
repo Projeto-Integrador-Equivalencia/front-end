@@ -1,5 +1,6 @@
 import TableRow from "@/components/ui/Table/TableRow";
 import TableCell from "@/components/ui/Table/TableCell";
+import Link from "next/link";
 
 const estilosStatus = {
   aprovado: "bg-green-500 text-green-950 font-semibold",
@@ -17,6 +18,9 @@ function formatDate(value?: string) {
 
 export default function SolicitationsRow({ item }: any) {
   const requestProps = item?.props ?? item?.data?.request?.props ?? item;
+
+  // Captura o ID real do request que está dentro de props
+  const idReal = item?.props?.id ?? item?.id;
 
   const statusReal = requestProps?.status ?? item?.status ?? "Pendente";
   const statusFormatado =
@@ -54,6 +58,30 @@ export default function SolicitationsRow({ item }: any) {
       <TableCell className="font-mono">{protocoloReal}</TableCell>
 
       <TableCell>{formatDate(dataCriacao)}</TableCell>
+
+      <TableCell>
+        {/* Aqui passamos o idReal (item.props.id) garantindo o redirecionamento correto */}
+        <Link
+          href={`/advisor/request/${idReal}`}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs py-1.5 px-3 rounded transition-colors inline-flex items-center gap-1 select-none"
+        >
+          <span>Visualizar</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-3 h-3"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+            />
+          </svg>
+        </Link>
+      </TableCell>
     </TableRow>
   );
 }
