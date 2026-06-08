@@ -1,6 +1,8 @@
 import TableRow from "@/components/ui/Table/TableRow";
 import TableCell from "@/components/ui/Table/TableCell";
 import Link from "next/link";
+import { userAgent } from "next/server";
+import { useAuth } from "@/hooks/userAuth";
 
 const estilosStatus = {
   aprovado: "bg-green-500 text-green-950 font-semibold",
@@ -17,9 +19,10 @@ function formatDate(value?: string) {
 }
 
 export default function SolicitationsRow({ item }: any) {
+  const { user } = useAuth();
   const requestProps = item?.props ?? item?.data?.request?.props ?? item;
 
-  // Captura o ID real do request que está dentro de props
+  const role = user?.role;
   const idReal = item?.props?.id ?? item?.id;
 
   const statusReal = requestProps?.status ?? item?.status ?? "Pendente";
@@ -62,7 +65,7 @@ export default function SolicitationsRow({ item }: any) {
       <TableCell>
         {/* Aqui passamos o idReal (item.props.id) garantindo o redirecionamento correto */}
         <Link
-          href={`/advisor/request/${idReal}`}
+          href={`/${role}/request/${idReal}`}
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs py-1.5 px-3 rounded transition-colors inline-flex items-center gap-1 select-none"
         >
           <span>Visualizar</span>

@@ -168,7 +168,7 @@ export default function Page() {
       />
       <div className="pb-16 pt-16 grid size-full grid-cols-1 place-items-center">
         <Link
-          href="/dashboard"
+          href="./dashboard"
           className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm w-fit select-none mb-4"
         >
           <svg

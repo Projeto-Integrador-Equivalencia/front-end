@@ -182,7 +182,7 @@ export default function Equivalency() {
         <form onSubmit={onSubmit} className="flex flex-col min-h-screen w-full">
           <main className=" flex flex-col items-center w-full px-4 pt-2 pb-10">
             <div className="w-full max-w-275 -mt-12 mb-12 text-left">
-              <p className="text-zinc-500 uppercase text-xs font-bold tracking-widest">
+              <p className="text-zinc-500 mt-20 uppercase text-xs font-bold tracking-widest">
                 Solicitação de Estágio de Equivalência
               </p>
               <h1 className="text-4xl md:text-5xl font-bold text-zinc-900">

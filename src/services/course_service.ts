@@ -45,13 +45,8 @@ export interface RegisterCourseResponse {
 
 export async function registerCourse(
   data: RegisterCourseData,
-  token: string,
 ): Promise<RegisterCourseResponse> {
-  const response = await api.post<RegisterCourseResponse>("/courses", data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.post<RegisterCourseResponse>("/courses", data);
 
   console.log({ response });
 

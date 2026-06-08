@@ -4,6 +4,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import BackgroundGradient from "@/components/backgrounds/GradientBackground";
 import { useState } from "react";
+import { forgotPassword } from "@/services/authService";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,29 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<{
     email?: string;
   }>({});
+
+  async function handlePassword(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (!email) {
+      setErrors({
+        email: !email ? "Campo obrigatório" : undefined,
+      });
+      return;
+    }
+
+    try {
+      const response = await forgotPassword({email});
+      
+      alert(response.message);
+      
+      
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao recuperar senha");
+    }
+  }
+
   return (
     <BackgroundGradient>
       <div className="flex flex-col items-center w-full">
@@ -24,7 +48,7 @@ export default function LoginPage() {
         </header>
 
         <CardForm>
-          <form className="flex flex-col items-start w-full max-w-xl space-y-5">
+          <form onSubmit={handlePassword} className="flex flex-col items-start w-full max-w-xl space-y-5">
             <div className="flex items-center gap-2 mb-28 mt-7">
               <div className="w-1 h-3 bg-red-600 rounded-full"></div>
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-800">
@@ -35,6 +59,7 @@ export default function LoginPage() {
             <div className="w-full space-y-4">
               <Input
                 label="E-mail"
+                value={email}
                 placeholder="Digite seu email"
                 onBlur={() => {
                   setErrors((prev) => ({
@@ -42,6 +67,7 @@ export default function LoginPage() {
                     email: !email ? "Campo obrigatório" : undefined,
                   }));
                 }}
+                onChange={(e) => setEmail(e.target.value)}
                 error={errors.email}
               />
 
