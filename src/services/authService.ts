@@ -5,6 +5,14 @@ export interface LoginData {
   password: string;
 }
 
+export interface recuperarSenha{
+  email: string;
+}
+
+export interface message{
+  message: string;
+}
+
 export interface LoginResponse {
   status: string;
   data: {
@@ -24,4 +32,9 @@ export async function loginRequest(param: LoginData): Promise<LoginResponse> {
   const response = await api.post<LoginResponse>("/auth/login", param);
   console.log({response});
   return response.data;
+}
+
+export async function forgotPassword(param: recuperarSenha): Promise<message>{
+  const response = await api.post<message>("/auth/forgot-password",param)
+  return response.data
 }
