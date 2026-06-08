@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 // Ajustando a tipagem para refletir o JSON real da sua API
 interface SolicitationDetailsProps {
   data?: {
     request?: {
       props?: {
+        equivalencyId: ReactNode;
         protocol: string;
         status: string;
         createdAt: string;
