@@ -68,8 +68,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   function signOut(): void {
-    Cookies.remove("token", {path: "/"});
-    Cookies.remove("user", {path: "/"});
+    Cookies.remove("token", { path: "/" });
+    Cookies.remove("user", { path: "/" });
     Cookies.remove("role", { path: "/" });
 
     setToken(null);

@@ -12,10 +12,10 @@ import { useAuth } from "@/hooks/userAuth";
 import { api } from "@/services/api";
 
 export default function DetalheSolicitacaoPage() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { token } = useAuth();
-  const router = useRouter(); // 2. INICIALIZADO O HOOK AQUI
-  
+  const router = useRouter(); 
+
   const [solicitation, setSolicitation] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -32,8 +32,9 @@ export default function DetalheSolicitacaoPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
-        const dados = response.data?.data || response.data?.props || response.data;
+
+        const dados =
+          response.data?.data || response.data?.props || response.data;
         setSolicitation(dados);
       } catch (err) {
         console.error("Erro ao carregar detalhes:", err);
@@ -52,11 +53,9 @@ export default function DetalheSolicitacaoPage() {
         description="Visualize os detalhes da solicitação realizada pelo aluno"
         title="Detalhes da Solicitação."
       />
-      
+
       <div className="pb-16 pt-16 flex flex-col items-center justify-center size-full max-w-5xl mx-auto px-4 gap-4">
-        
         <div className="w-full flex justify-start">
-          {/* 3. O ANTIGO <Link> FOI SUBSTITUÍDO POR ESSE <button> COMPLETO */}
           <button
             onClick={() => router.back()} // Faz o histórico do navegador voltar
             className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm select-none cursor-pointer"
@@ -95,21 +94,29 @@ export default function DetalheSolicitacaoPage() {
           {!loading && !error && (
             <>
               <SolicitationDetails data={solicitation} />
-              
+
               <hr className="my-6 border-gray-200" />
-              
-              <AttachedFiles documentos={solicitation?.Documents || solicitation?.props?.Documents || []} />
-              
+
+              <AttachedFiles
+                documentos={
+                  solicitation?.Documents ||
+                  solicitation?.props?.Documents ||
+                  []
+                }
+              />
+
               <hr className="my-6 border-gray-200" />
-              
-              <ActionHistory 
-                requestId={String(id)} 
-                historico={solicitation?.History || solicitation?.props?.History || []} 
+
+              <ActionHistory
+                requestId={String(id)}
+                historico={
+                  solicitation?.History || solicitation?.props?.History || []
+                }
               />
             </>
           )}
         </CardWhite>
-        
+
         <div>
           <DecorativeDots variant="bottom" />
         </div>

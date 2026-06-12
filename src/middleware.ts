@@ -10,13 +10,11 @@ export function middleware(request: NextRequest) {
 
   console.log({pathname,token,userRole})
 
-  // 2. SE NÃO ESTIVER LOGADO: 
   // Bloqueia o acesso a qualquer página privada e manda para o login
   if (!token && pathname !== "/login") {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 3. SE JÁ ESTIVER LOGADO:
   // Impede o usuário de acessar a página de login novamente e o joga para o seu respectivo painel
   if (token && pathname === "/login") {
     if (userRole === "administrator") {
@@ -47,7 +45,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// 4. CONFIGURAÇÃO DE MONITORAMENTO:
+
 // Define quais rotas o Next.js deve interceptar com este middleware
 export const config = {
   matcher: [

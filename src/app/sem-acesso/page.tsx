@@ -6,7 +6,7 @@ export default function SemAcesso() {
   const router = useRouter();
 
   const handleGoBack = () => {
-    // Remove os cookies para garantir que o usuário deslogue ao voltar para o login
+    // Remove os cookies 
     document.cookie = "token=; path=/; max-age=0;";
     document.cookie = "role=; path=/; max-age=0;";
     router.push("/login");
@@ -15,7 +15,6 @@ export default function SemAcesso() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
       <div className="w-full max-w-md text-center">
-        {/* Ícone de Alerta Animado */}
         <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +32,6 @@ export default function SemAcesso() {
           </svg>
         </div>
 
-        {/* Textos Informativos */}
         <h1 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
           Acesso Negado
         </h1>
@@ -42,7 +40,6 @@ export default function SemAcesso() {
           Ops! Você não tem permissão para visualizar esta área do sistema acadêmico. Seu nível de acesso não corresponde a esta rota.
         </p>
 
-        {/* Botão de Ação */}
         <div className="mt-8">
           <button
             onClick={handleGoBack}

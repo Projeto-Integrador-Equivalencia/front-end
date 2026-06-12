@@ -41,4 +41,3 @@ export default function PopUp({
     </dialog>
   );
 }
-//Lembrar de tirar o open={true} para fazer a logica do botão na tela de envio de solicitação

@@ -58,7 +58,7 @@ export default function CadastroAlunoPage() {
     }
 
     buscarCursos();
-  }, []); // Array de dependências vazio para rodar apenas uma vez na montagem da página
+  }, []); 
 
   async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();
