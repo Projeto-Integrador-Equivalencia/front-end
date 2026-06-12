@@ -8,10 +8,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/userAuth";
 import Link from "next/link";
-//import { loginRedirect } from "@/services/authService";
 
 export default function LoginPage() {
-  const {signIn} = useAuth();
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -36,10 +35,8 @@ export default function LoginPage() {
 
     try {
       await signIn({ email, password: senha });
-      
+
       router.refresh();
-      
-      
     } catch (error) {
       console.error(error);
       alert("Erro ao fazer login");
@@ -99,13 +96,13 @@ export default function LoginPage() {
                 />
                 <div className="w-full flex justify-end items-center gap-x-97 mt-1">
                   <Link
-                    href="/recuperarSenha" 
+                    href="/recuperarSenha"
                     className="text-[10px] text-blue-600 hover:underline font-medium"
                   >
                     Recuperar Senha
                   </Link>
                   <Link
-                    href="/registerStudent" 
+                    href="/registerStudent"
                     className="text-[10px] text-blue-600 hover:underline font-medium"
                   >
                     Não possui uma conta?

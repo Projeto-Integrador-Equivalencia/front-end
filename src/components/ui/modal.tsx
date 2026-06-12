@@ -1,4 +1,6 @@
-'use client';
+//Componente sem utilização no momento 
+
+/*'use client';
 
 import { ReactNode, useEffect } from 'react';
 
@@ -10,7 +12,7 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
-  // Fecha o modal ao pressionar a tecla "Escape"
+ 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -19,19 +21,18 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
-  // Se não estiver aberto, não renderiza nada
   if (!isOpen) return null;
 
   return (
     <div
-      // Fundo escuro transparente que cobre a tela toda
+      
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity"
-      onClick={onClose} // Fecha ao clicar fora do modal
+      onClick={onClose} 
     >
       <div
-        // A caixa principal do modal
+        
         className="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
-        onClick={(e) => e.stopPropagation()} // Impede que o clique dentro da caixa feche o modal
+        onClick={(e) => e.stopPropagation()} 
       >
         {title && (
           <div className="mb-4 flex items-center justify-between">
@@ -43,7 +44,7 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
               className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
               aria-label="Fechar modal"
             >
-              {/* Ícone de X (fechar) */}
+              
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -51,11 +52,10 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
           </div>
         )}
         
-        {/* Conteúdo dinâmico do modal */}
         <div className="mt-2 text-sm text-gray-500">
           {children}
         </div>
       </div>
     </div>
   );
-}
+}*/

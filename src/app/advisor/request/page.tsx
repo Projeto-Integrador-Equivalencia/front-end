@@ -18,7 +18,6 @@ export default function Page() {
           href="/"
           className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm w-fit select-none"
         >
-          {/* Ícone de Seta para a Esquerda integrado de forma nativa */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -36,11 +35,11 @@ export default function Page() {
           <span>Sair da conta</span>
         </Link>
         <CardWhite>
-            <SolicitationDetails/>
-            <hr className="my-6 border-gray-200" />
-            <AttachedFiles documentos={[]}/>
-            <hr className="my-6 border-gray-200" />
-            <ActionHistory requestId={""}/>
+          <SolicitationDetails />
+          <hr className="my-6 border-gray-200" />
+          <AttachedFiles documentos={[]} />
+          <hr className="my-6 border-gray-200" />
+          <ActionHistory requestId={""} />
         </CardWhite>
         <div>
           <DecorativeDots variant="bottom" />

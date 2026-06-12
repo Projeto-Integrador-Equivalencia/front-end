@@ -9,7 +9,6 @@ interface Props {
     variant?: "primary" | "mobileReverse" | "mobile";
     onClick?: React.MouseEventHandler;
 }
-// Colocar 'use client'; no começo dos arquivos que vão usar o botão
 
 export default function Button({ label, variant = "primary", type, onClick }: Props) {
     const stylesClasses = "font-medium transition all font-poppins px-8 py-2"

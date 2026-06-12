@@ -9,7 +9,6 @@ export default function SolicitationsTable({ data }: any) {
  
   if (!data || !data.length) return <EmptyState />;
 
-  // 2. Adicionada a coluna "Ações" para alinhar com o botão de Visualizar
   const ColunasTabela = [
     "Equivalência",
     "Aluno",
@@ -40,7 +39,6 @@ export default function SolicitationsTable({ data }: any) {
         <TableHeader columns={ColunasTabela} />
         <Table>
           {currentData.map((item: any, index: number) => (
-            // O seu SolicitationsRow agora vai encaixar perfeitamente aqui com as 7 colunas
             <SolicitationsRow key={`solicitacao-${index}`} item={item} />
           ))}
         </Table>

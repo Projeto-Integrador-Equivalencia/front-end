@@ -8,7 +8,6 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-10">
           
-          {/* Coluna 1 - Logo Fatec */}
           <div className="flex-1 flex items-start">
             <Image
               src="/images/logo-fatec.png"
@@ -20,22 +19,18 @@ const Footer = () => {
             />
           </div>
 
-          {/* Coluna 2 - Contato */}
           <div className="flex-1">
             <h2 className="text-[14px] font-bold uppercase mb-4">Contato</h2>
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">(11) 4402-1047 / 4402 1010</p>
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">f309adm@cps.sp.gov.br</p>
 
-            {/* Linha Divisória 1 - Largura fixa conforme seu teste anterior */}
             <div className="block h-px bg-zinc-800 my-3 w-50.5"></div>
 
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">Avenida Jerônimo de Camargo, 421</p>
             <p className="text-[13px] text-zinc-300 leading-relaxed my-1">Caetetuba, Atibaia - SP</p>
 
-            {/* Linha Divisória 2 */}
             <div className="block h-px bg-zinc-800 my-3 w-50.5"></div>
 
-            {/* Instagram - margin-left negativa para compensar o ícone */}
             <div className="mt-3 flex justify-start">
               <a
                 href="https://instagram.com/fatecatibaia"
@@ -53,7 +48,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Coluna 3 - Institucional */}
           <div className="flex-1 md:text-right md:flex md:flex-col md:items-end">
             <div className="flex items-center gap-2 mb-5">
               <Image
@@ -64,7 +58,6 @@ const Footer = () => {
                 className="brightness-0 invert block" 
               />
 
-              {/* Traço Vertical */}
               <div className="w-0.5 h-6.25 bg-white block mx-0"></div>
 
               <Image
@@ -81,7 +74,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright sem a borda superior conforme solicitado */}
         <div className="mt-15 text-[11px] text-zinc-500 border-none">
           Fatec© Direitos Reservados.
         </div>

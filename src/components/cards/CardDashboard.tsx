@@ -6,9 +6,9 @@ type Props = {} & React.HTMLAttributes<HTMLElement>;
 export default function CardDashboard({ children, className }: Props) {
   return (
     <Card
-      className={`max-w-[460px] max-h-[672px] w-full h-full place-items-center ${className}`}
+      className={`max-w-115 max-h-168 w-full h-full place-items-center ${className}`}
     >
-      <div className="mt-[70px]">{children}</div>
+      <div className="mt-17.5">{children}</div>
     </Card>
   );
 }
