@@ -17,3 +17,11 @@ export interface LoginUser {
   email: string;
   role: string;
 }
+
+export interface recuperarSenha{
+  email: string;
+}
+
+export interface message{
+  message: string;
+}

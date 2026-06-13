@@ -1,15 +1,16 @@
-import { EquivalencySearchResponse, EquivalencyData, CreateEquivalency, EquivalencyCreateResponse, UpdateEquivalency, EquivalencyUpdateResponse } from "@/interfaces/equivalency";
+import {
+  EquivalencySearchResponse,
+  EquivalencyData,
+  CreateEquivalency,
+  EquivalencyCreateResponse,
+  UpdateEquivalency,
+  EquivalencyUpdateResponse,
+} from "@/interfaces/equivalency";
 import { api } from "./api";
 
-export const getEquivalencies = async (token: string): Promise<EquivalencyData[]> => {
+export async function getEquivalencies(): Promise<EquivalencyData[]>{
   try {
-    const response = await api.get<EquivalencyData[]>("/equivalencies/", {
-      headers: {
-
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+    const response = await api.get<EquivalencyData[]>("/equivalencies/");
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar equivalências:", error);
@@ -17,13 +18,16 @@ export const getEquivalencies = async (token: string): Promise<EquivalencyData[]
   }
 };
 
-export const searchEquivalencyByName = async (name: string, token?: string): Promise<EquivalencyData> => {
+export async function searchEquivalencyByName(
+  name: string,
+): Promise<EquivalencyData>{
   try {
-    const response = await api.get<EquivalencySearchResponse>('/equivalencies/search', {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      params: { name }
-    });
-
+    const response = await api.get<EquivalencySearchResponse>(
+      "/equivalencies/search", 
+      {
+        params: { name }
+      }
+    );
     return response.data.data;
   } catch (error) {
     console.error("Erro na busca:", error);
@@ -31,15 +35,12 @@ export const searchEquivalencyByName = async (name: string, token?: string): Pro
   }
 };
 
-export const createEquivalency = async (
-  data: CreateEquivalency, 
-  token?: string
-): Promise<EquivalencyCreateResponse> => {
+export async function createEquivalency(data: CreateEquivalency): Promise<EquivalencyCreateResponse>{
   try {
-    const response = await api.post<EquivalencyCreateResponse>('/equivalencies/create', data, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-
+    const response = await api.post<EquivalencyCreateResponse>(
+      "/equivalencies/create",
+      data,
+    );
     return response.data;
   } catch (error) {
     console.error("Erro ao criar equivalência:", error);
@@ -47,20 +48,18 @@ export const createEquivalency = async (
   }
 };
 
-export const updateEquivalency = async (
+export async function updateEquivalency(
   id: number,
   data: UpdateEquivalency,
-  token?: string
-): Promise<EquivalencyUpdateResponse> => {
+): Promise<EquivalencyUpdateResponse> {
   try {
-   
-    const response = await api.patch<EquivalencyUpdateResponse>(`/equivalencies/updated/${id}`, data, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-
+    const response = await api.patch<EquivalencyUpdateResponse>(
+      `/equivalencies/updated/${id}`,
+      data,
+    );
     return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar equivalência com ID ${id}:`, error);
     throw error;
   }
-};
+}

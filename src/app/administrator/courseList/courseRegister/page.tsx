@@ -7,7 +7,7 @@ import CardForm from "@/components/cards/CardForm";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
-import { registerCourse, type CourseShift } from "@/services/course_service";
+import { registerCourse, type CourseShift } from "@/services/courseService";
 
 import { useAuth } from "@/hooks/userAuth";
 import Link from "next/link";

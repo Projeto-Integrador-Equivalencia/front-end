@@ -9,8 +9,9 @@ import { PageHeader } from "@/components/headers/PageHeader";
 import Button from "@/components/ui/Button";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import { useAuth } from "@/hooks/userAuth";
-import { getAdministratorById } from "@/services/administrator_service";
-import { getCourses, type Course } from "@/services/course_service";
+import { getAdministratorById } from "@/services/administratorService";
+import { getCourses } from "@/services/courseService";
+import { Course } from "@/interfaces/course";
 
 export default function Page() {
   const { token } = useAuth();
@@ -28,14 +29,14 @@ export default function Page() {
       setError("");
 
       try {
-        const cursosEncontrados = await getCourses(authToken);
+        const cursosEncontrados = await getCourses();
         const adminNameRequests = new Map<number, Promise<string>>();
 
         function getAdminName(adminId: number) {
           if (!adminNameRequests.has(adminId)) {
             adminNameRequests.set(
               adminId,
-              getAdministratorById(adminId, authToken).then(
+              getAdministratorById(adminId).then(
                 (admin) => admin.name,
               ),
             );

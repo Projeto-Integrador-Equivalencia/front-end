@@ -10,7 +10,8 @@ import PasswordInput from "@/components/inputs/PasswordInput";
 import Button from "@/components/ui/Button";
 
 import { registerStudent } from "@/services/StudentService";
-import { getCourses, type Course } from "@/services/course_service";
+import { getCourses } from "@/services/courseService";
+import { Course } from "@/interfaces/course";
 import { useAuth } from "@/hooks/userAuth";
 
 export default function CadastroAlunoPage() {
@@ -58,7 +59,7 @@ export default function CadastroAlunoPage() {
     }
 
     buscarCursos();
-  }, []); // Array de dependências vazio para rodar apenas uma vez na montagem da página
+  }, []);
 
   async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();
