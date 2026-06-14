@@ -57,7 +57,7 @@ export default function DetalheSolicitacaoPage() {
         
         <div className="w-full flex justify-start">
           <button
-            onClick={() => router.back()} 
+            onClick={() => router.back()}
             className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm select-none cursor-pointer"
           >
             <svg
