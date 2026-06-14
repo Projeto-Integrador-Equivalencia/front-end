@@ -19,16 +19,14 @@ interface DropdownMenuProps {
 }
 
 export default function DropdownMenu({ buttonText = "Options", items }: DropdownMenuProps) {
-  // 1. Estado para controlar se o menu está aberto ou fechado
+
   const [isOpen, setIsOpen] = useState(false);
 
-  // 2. Referência para o contêiner principal (usado para detectar cliques fora)
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // 3. Efeito para fechar o menu ao clicar fora dele
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Se o menu estiver aberto e o clique não ocorreu dentro da div do menu, feche-o
+      
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
@@ -84,7 +82,7 @@ export default function DropdownMenu({ buttonText = "Options", items }: Dropdown
               {item.href ? (
                 <Link
                   href={item.href}
-                  onClick={() => setIsOpen(false)} // Fecha o menu ao navegar
+                  onClick={() => setIsOpen(false)}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white transition-colors"
                 >
                   {item.label}
@@ -93,7 +91,7 @@ export default function DropdownMenu({ buttonText = "Options", items }: Dropdown
                 <button
                   onClick={() => {
                     if (item.action) item.action();
-                    setIsOpen(false); // Fecha o menu após a ação
+                    setIsOpen(false);
                   }}
                   className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white transition-colors"
                 >

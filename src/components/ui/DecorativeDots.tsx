@@ -9,7 +9,6 @@ export function DecorativeDots({
   className,
   ...props
 }: DecorativeDotsProps) {
-  // Configurações de posicionamento absoluto na tela e opacidade
   const variantStyles = {
     top: "absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 text-white opacity-20 pointer-events-none hidden md:block",
     bottom:
@@ -18,8 +17,6 @@ export function DecorativeDots({
 
   const chosenStyles = variantStyles[variant];
 
-  // Matriz de coordenadas (CX, CY) perfeitamente alinhadas a partir do ponto 0,0
-  // Cada ponto tem raio r="2" (diâmetro 4) e espaçamento de 12px entre os centros.
   const topDots = [
     { cx: 2, cy: 2 },
     { cx: 14, cy: 2 },

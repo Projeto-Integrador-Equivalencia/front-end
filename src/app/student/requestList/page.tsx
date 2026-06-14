@@ -62,15 +62,13 @@ export default function Page() {
   useEffect(() => {
     if (!user || !user.id || !token) return;
 
-    async function buscarSolicitacoes(authToken: string) {
+    async function buscarSolicitacoes() {
       setLoading(true);
       setError("");
 
       try {
         const requestsEncontradas = await requestGetByStudentId(
-          user!.id,
-          authToken,
-        );
+          user!.id);
 
         const advisorNameRequests = new Map<number, Promise<string>>();
         const studentNameRequests = new Map<number, Promise<string>>();
@@ -80,7 +78,7 @@ export default function Page() {
           if (!studentNameRequests.has(studentId)) {
             studentNameRequests.set(
               studentId,
-              getStudentById(studentId, authToken).then(
+              getStudentById(studentId).then(
                 (student) => student.name,
               ),
             );
@@ -92,7 +90,7 @@ export default function Page() {
           if (!advisorNameRequests.has(advisorId)) {
             advisorNameRequests.set(
               advisorId,
-              getAdvisorById(advisorId, authToken).then(
+              getAdvisorById(advisorId).then(
                 (advisor) => advisor.name,
               ),
             );
@@ -104,7 +102,7 @@ export default function Page() {
           if (!equivalenceNameRequests.has(equivalenceId)) {
             equivalenceNameRequests.set(
               equivalenceId,
-              getEquivalencies(authToken).then((res: any) => {
+              getEquivalencies().then((res: any) => {
                 const lista = Array.isArray(res) ? res : res?.data || [];
 
                 const eq = lista.find((item: any) => {
@@ -157,8 +155,8 @@ export default function Page() {
       }
     }
 
-    buscarSolicitacoes(token);
-  }, [token, user]);
+    buscarSolicitacoes();
+  }, [user]);
 
   return (
     <div className="bg-c02">

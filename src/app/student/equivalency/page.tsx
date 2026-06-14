@@ -61,10 +61,10 @@ export default function Equivalency() {
     };
     console.log({ formData });
 
-    // if (!dadosFormulario.termosAceitos) {
-    //   alert("Você precisa aceitar os termos e condições para avançar.");
-    //   return;
-    // }
+     if (!dadosFormulario) {
+       alert("Você precisa aceitar os termos e condições para avançar.");
+       return;
+    }
 
     console.log("Dados prontos para envio:", dadosFormulario);
 

@@ -63,7 +63,7 @@ export default function SolicitationsRow({ item }: any) {
       <TableCell>{formatDate(dataCriacao)}</TableCell>
 
       <TableCell>
-        {/* Aqui passamos o idReal (item.props.id) garantindo o redirecionamento correto */}
+        
         <Link
           href={`/${role}/request/${idReal}`}
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs py-1.5 px-3 rounded transition-colors inline-flex items-center gap-1 select-none"
