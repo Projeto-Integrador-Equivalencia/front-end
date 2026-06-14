@@ -2,11 +2,7 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { loginRequest } from "../services/authService";
-import type {
-  LoginData,
-  LoginResponse,
-  LoginUser,
-} from "../services/authService";
+import type { LoginData, LoginUser } from "../interfaces/auth";
 import { AuthContext } from "./authContextObject";
 import Cookies from "js-cookie";
 

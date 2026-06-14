@@ -95,7 +95,7 @@ export default function Page() {
           if (!studentNameRequests.has(studentId)) {
             studentNameRequests.set(
               studentId,
-              getStudentById(studentId, authToken).then(
+              getStudentById(studentId).then(
                 (student) => student.name,
               ),
             );
@@ -107,7 +107,7 @@ export default function Page() {
           if (!advisorNameRequests.has(advisorId)) {
             advisorNameRequests.set(
               advisorId,
-              getAdvisorById(advisorId, authToken).then(
+              getAdvisorById(advisorId).then(
                 (advisor) => advisor.name,
               ),
             );
@@ -119,7 +119,7 @@ export default function Page() {
           if (!equivalenceNameRequests.has(equivalenceId)) {
             equivalenceNameRequests.set(
               equivalenceId,
-              getEquivalencies(authToken).then((res: any) => {
+              getEquivalencies().then((res: any) => {
                 const lista = Array.isArray(res) ? res : res?.data || [];
                 const eq = lista.find((item: any) => {
                   const id = item?.props?.id ?? item?.id;

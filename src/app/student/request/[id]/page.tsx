@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation"; // 1. IMPORTADO O USEROUTER AQUI
+import { useParams, useRouter } from "next/navigation";
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
 import AttachedFiles from "@/components/solicitations/AttachedFiles";
@@ -12,9 +12,9 @@ import { useAuth } from "@/hooks/userAuth";
 import { api } from "@/services/api";
 
 export default function DetalheSolicitacaoPage() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { token } = useAuth();
-  const router = useRouter(); 
+  const router = useRouter();
   
   const [solicitation, setSolicitation] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ export default function DetalheSolicitacaoPage() {
         
         <div className="w-full flex justify-start">
           <button
-            onClick={() => router.back()} 
+            onClick={() => router.back()}
             className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm select-none cursor-pointer"
           >
             <svg

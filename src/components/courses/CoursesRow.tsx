@@ -1,6 +1,6 @@
 import TableRow from "@/components/ui/Table/TableRow";
 import TableCell from "@/components/ui/Table/TableCell";
-import type { Course } from "@/services/course_service";
+import type { Course } from "@/interfaces/course";
 
 interface CoursesRowProps {
   item: Course;

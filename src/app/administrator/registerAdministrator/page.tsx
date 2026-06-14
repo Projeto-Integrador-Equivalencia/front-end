@@ -7,11 +7,12 @@ import CardForm from "@/components/cards/CardForm";
 import PasswordInput from "@/components/inputs/PasswordInput";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import { registerAdministrator } from "@/services/register_administrator";
+import { registerAdministrator } from "@/services/administratorService";
+import { RegisterAdministratorData } from "@/interfaces/administrator";
+import { stringify } from "querystring";
 
 export default function CadastroAdministradorPage() {
   const [mensagem, setMensagem] = useState("");
-
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -37,9 +38,15 @@ export default function CadastroAdministradorPage() {
         senha: !senha ? "Campo obrigatorio" : undefined,
         confirmSenha: !confirmSenha ? "Campo obrigatório" : undefined,
       });
-
       return;
     }
+
+    const CreateAdmInput: RegisterAdministratorData = {
+      name: nome,
+      cpf: cpf,
+      email: email,
+      password: senha,
+    };
 
     if (senha !== confirmSenha) {
       setErrors({
@@ -50,22 +57,19 @@ export default function CadastroAdministradorPage() {
     }
 
     try {
-      await registerAdministrator({
-        name: nome,
-        email,
-        cpf,
-        password: senha,
-      });
+      await registerAdministrator(CreateAdmInput);
 
       setMensagem("Administrador cadastrado com sucesso!");
+      
+
 
       setNome("");
       setEmail("");
       setCpf("");
       setSenha("");
       setConfirmSenha("");
-
       setErrors({});
+
     } catch (error) {
       console.error(error);
       setMensagem("Erro ao realizar cadastro");

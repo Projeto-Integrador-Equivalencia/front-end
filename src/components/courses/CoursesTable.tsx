@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import Table from "@/components/ui/Table/Table";
-import type { Course } from "@/services/course_service";
+import type { Course } from "@/interfaces/course";
 
 import CoursesRow from "./CoursesRow";
 import EmptyState from "../ui/Table/EmptyState";

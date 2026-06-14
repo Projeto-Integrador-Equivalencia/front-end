@@ -2,95 +2,84 @@ import {
   getRequestInfo,
   CreateRequestInput,
   CreateRequestResponse,
+  RequestListItem,
 } from "@/interfaces/requests";
 import { api } from "@/services/api";
 
 export async function createRequest(
   param: CreateRequestInput,
-  token: string,
 ): Promise<CreateRequestResponse> {
-  const formData = new FormData();
-  formData.append("studentId", param.studentId.toString());
-  formData.append("equivalencyId", param.equivalencyId.toString());
+  try{
+    const formData = new FormData();
+    formData.append("studentId", param.studentId.toString());
+    formData.append("equivalencyId", param.equivalencyId.toString());
 
-  if (param.advisorId !== undefined && param.advisorId !== null) {
-    formData.append("advisorId", param.advisorId.toString());
+    if (param.advisorId !== undefined && param.advisorId !== null) {
+      formData.append("advisorId", param.advisorId.toString());
+    }
+
+    formData.append("experiences", JSON.stringify(param.experiences));
+
+    if (param.files && param.files.length > 0) {
+      param.files.forEach((file) => {
+        formData.append("files", file);
+      });
+    }
+    const response = await api.post<CreateRequestResponse>("/requests/");
+    console.log({response});
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao registrar uma solicitação de equivalência:", error);
+    throw error;
   }
-
-  formData.append("experiences", JSON.stringify(param.experiences));
-
-  if (param.files && param.files.length > 0) {
-    param.files.forEach((file) => {
-      formData.append("files", file);
-    });
-  }
-
-  const response = await api.post<CreateRequestResponse>(
-    "/requests/",
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return response.data;
 }
 
 export async function getRequestById(
   id: number | string,
-  token: string,
 ): Promise<getRequestInfo> {
-  const response = await api.get<getRequestInfo>(`/requests/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+  try{
+    const response = await api.get<getRequestInfo>(`/requests/${id}`);
+    console.log({response})
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao buscar solicitação de equivalência pelo ID: ${id}:`, error);
+    throw error;
+  }
 }
-
-import { RequestListItem } from "@/interfaces/requests";
 
 export async function requestGetByStudentId(
   id: number | string,
-  token: string,
 ): Promise<RequestListItem[]> {
-  const response = await api.get<{ data: RequestListItem[] }>(
-    `/requests/student/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  return response.data.data;
+  try{
+    const response = await api.get<{ data: RequestListItem[] }>(`/requests/student/${id}`);
+    console.log({response});
+    return response.data.data;
+  } catch (error) {
+    console.error(`Erro ao buscar solicitação de equivalência pelo ID do estudante: ${id}:`, error);
+    throw error;
+  }
 }
 
 export async function deleteRequestById(
   id: number | string,
-  token: string,
 ): Promise<void> {
-  const response = await api.delete<void>(`/requests/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+  try{
+    const response = await api.delete<void>(`/requests/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao deletar solicitação de equivalência de ID: ${id}:`, error);
+    throw error;
+  }
 }
 
 export async function assignAdvisorToRequest(
   id: number | string,
-  token: string,
 ): Promise<void> {
-  const response = await api.patch<void>(
-    `/requests/${id}`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return response.data;
+  try{
+    const response = await api.patch<void>(`/requests/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao juntar advisor com a solicitação de equivalência:", error);
+    throw error;
+  }
 }

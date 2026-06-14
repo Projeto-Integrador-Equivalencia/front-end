@@ -9,8 +9,9 @@ import Input from "@/components/ui/Input";
 import PasswordInput from "@/components/inputs/PasswordInput";
 import Button from "@/components/ui/Button";
 
-import { registerAdvisor } from "@/services/register_advisor";
-import { getCourses, type Course } from "@/services/course_service";
+import { createAdvisor } from "@/services/AdvisorService";
+import { getCourses } from "@/services/courseService";
+import { Course } from "@/interfaces/course";
 import { useAuth } from "@/hooks/userAuth";
 
 export default function CadastroOrientadorPage() {
@@ -42,11 +43,11 @@ export default function CadastroOrientadorPage() {
 
     if (!authToken) return;
 
-    async function buscarCursos(authToken: string) {
+    async function buscarCursos() {
       setCarregandoCursos(true);
 
       try {
-        const cursosEncontrados = await getCourses(authToken);
+        const cursosEncontrados = await getCourses();
 
         console.log(cursosEncontrados);
 
@@ -59,7 +60,7 @@ export default function CadastroOrientadorPage() {
       }
     }
 
-    buscarCursos(authToken);
+    buscarCursos();
   }, [token]);
 
   async function handleCadastro(e: React.FormEvent) {
@@ -74,33 +75,23 @@ export default function CadastroOrientadorPage() {
         senha: !senha ? "Campo obrigatório" : undefined,
         confirmSenha: !confirmSenha ? "Campo obrigatório" : undefined,
       });
-
       return;
     }
-
     if (senha !== confirmSenha) {
       setErrors({
         confirmSenha: "As senhas não coincidem",
       });
-
       return;
     }
 
     try {
-      if (!token) {
-        setMensagem("Administrador nao autenticado");
-        return;
-      }
-
-      await registerAdvisor(
+      await createAdvisor(
         {
           name: nome,
-          email,
-          cpf,
-          courseId: Number(idCurso),
+          email: email,
+          cpf: cpf,
           password: senha,
-        },
-        token,
+        }
       );
 
       setMensagem("Orientador cadastrado com sucesso!");
