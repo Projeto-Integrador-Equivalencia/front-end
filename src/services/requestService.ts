@@ -9,7 +9,7 @@ import { api } from "@/services/api";
 export async function createRequest(
   param: CreateRequestInput,
 ): Promise<CreateRequestResponse> {
-  try{
+  try {
     const formData = new FormData();
     formData.append("studentId", param.studentId.toString());
     formData.append("equivalencyId", param.equivalencyId.toString());
@@ -26,7 +26,7 @@ export async function createRequest(
       });
     }
     const response = await api.post<CreateRequestResponse>("/requests/");
-    console.log({response});
+    console.log({ response });
     return response.data;
   } catch (error) {
     console.error("Erro ao registrar uma solicitação de equivalência:", error);
@@ -37,12 +37,15 @@ export async function createRequest(
 export async function getRequestById(
   id: number | string,
 ): Promise<getRequestInfo> {
-  try{
+  try {
     const response = await api.get<getRequestInfo>(`/requests/${id}`);
-    console.log({response})
+    console.log({ response });
     return response.data;
   } catch (error) {
-    console.error(`Erro ao buscar solicitação de equivalência pelo ID: ${id}:`, error);
+    console.error(
+      `Erro ao buscar solicitação de equivalência pelo ID: ${id}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -50,24 +53,30 @@ export async function getRequestById(
 export async function requestGetByStudentId(
   id: number | string,
 ): Promise<RequestListItem[]> {
-  try{
-    const response = await api.get<{ data: RequestListItem[] }>(`/requests/student/${id}`);
-    console.log({response});
+  try {
+    const response = await api.get<{ data: RequestListItem[] }>(
+      `/requests/student/${id}`,
+    );
+    console.log({ response });
     return response.data.data;
   } catch (error) {
-    console.error(`Erro ao buscar solicitação de equivalência pelo ID do estudante: ${id}:`, error);
+    console.error(
+      `Erro ao buscar solicitação de equivalência pelo ID do estudante: ${id}:`,
+      error,
+    );
     throw error;
   }
 }
 
-export async function deleteRequestById(
-  id: number | string,
-): Promise<void> {
-  try{
+export async function deleteRequestById(id: number | string): Promise<void> {
+  try {
     const response = await api.delete<void>(`/requests/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao deletar solicitação de equivalência de ID: ${id}:`, error);
+    console.error(
+      `Erro ao deletar solicitação de equivalência de ID: ${id}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -75,11 +84,31 @@ export async function deleteRequestById(
 export async function assignAdvisorToRequest(
   id: number | string,
 ): Promise<void> {
-  try{
+  try {
     const response = await api.patch<void>(`/requests/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Erro ao juntar advisor com a solicitação de equivalência:", error);
+    console.error(
+      "Erro ao juntar advisor com a solicitação de equivalência:",
+      error,
+    );
     throw error;
   }
+}
+//------------------------Atualização de dados da Solicitação------------------------//
+
+export type RequestStatus = "Pendente" | "Aprovado" | "Reprovado";
+
+export async function updateRequestStatus(
+  id: number | string,
+  status: RequestStatus,
+): Promise<void> {
+  await api.patch(`/requests/${id}/status`, { status });
+}
+
+export async function updateRequestObservation(
+  id: number | string,
+  observation: string,
+): Promise<void> {
+  await api.patch(`/requests/${id}/observation`, { observation });
 }
