@@ -10,11 +10,13 @@ import ActionHistory from "@/components/ui/ActionHistory";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import { useAuth } from "@/hooks/userAuth";
 import { api } from "@/services/api";
+import Link from "next/link";
+import EditButton from "@/components/ui/UpdateButton";
 
 export default function DetalheSolicitacaoPage() {
   const { id } = useParams();
   const { token } = useAuth();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const [solicitation, setSolicitation] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -115,6 +117,9 @@ export default function DetalheSolicitacaoPage() {
               />
             </>
           )}
+          <Link href={`/advisor/request/${id}/edit`}>
+            <EditButton />
+          </Link>
         </CardWhite>
 
         <div>
