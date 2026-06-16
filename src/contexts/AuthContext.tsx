@@ -46,21 +46,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user && !!token;
 
   async function signIn(param: LoginData): Promise<void> {
-    const loginResponse = await loginRequest(param);
-
-    const tokenData = loginResponse.data.token;
-    const userData = loginResponse.data.user;
-    const roleData = loginResponse.data.user.role;
-
-    // Salva nos Cookies perfeitamente para o Middleware ler
-    Cookies.set("token", tokenData, { expires: 1, path: "/" });
-    Cookies.set("user", JSON.stringify(userData), { expires: 1, path: "/" });
-    Cookies.set("role", roleData, { expires: 1, path: "/" });
-
-    console.log({ loginResponse });
-
-    setToken(tokenData);
-    setUser(userData);
+    try{
+      const loginResponse = await loginRequest(param);
+      const tokenData = loginResponse.data.token;
+      const userData = loginResponse.data.user;
+      const roleData = loginResponse.data.user.role;
+  
+      Cookies.set("token", tokenData, { expires: 1, path: "/" });
+      Cookies.set("user", JSON.stringify(userData), { expires: 1, path: "/" });
+      Cookies.set("role", roleData, { expires: 1, path: "/" });
+  
+      console.log({ loginResponse });
+  
+      setToken(tokenData);
+      setUser(userData);
+    }catch(error){
+      throw error;
+    }
   }
 
   function signOut(): void {
