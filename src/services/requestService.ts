@@ -25,7 +25,13 @@ export async function createRequest(
         formData.append("files", file);
       });
     }
-    const response = await api.post<CreateRequestResponse>("/requests/");
+    const response = await api.post<CreateRequestResponse>("/requests/", formData, 
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    });
+    
     console.log({ response });
     return response.data;
   } catch (error) {

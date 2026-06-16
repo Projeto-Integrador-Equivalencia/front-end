@@ -14,7 +14,7 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-
+  const [mensagem, setMensagem] = useState("");
   const [errors, setErrors] = useState<{
     email?: string;
     senha?: string;
@@ -35,11 +35,13 @@ export default function LoginPage() {
 
     try {
       await signIn({ email, password: senha });
-
       router.refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao fazer login");
+    } catch (error: any) {
+      console.error("Erro:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Erro ao fazer login. Tente novamente.";
+      setMensagem(errorMessage);
     }
   }
 
@@ -71,7 +73,10 @@ export default function LoginPage() {
               <Input
                 label="E-mail"
                 placeholder="Digite seu email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setMensagem("");
+                }}
                 onBlur={() => {
                   setErrors((prev) => ({
                     ...prev,
@@ -85,7 +90,10 @@ export default function LoginPage() {
                 <PasswordInput
                   label="Senha"
                   placeholder="Insira sua senha"
-                  onChange={(e) => setSenha(e.target.value)}
+                  onChange={(e) => {
+                    setSenha(e.target.value);
+                    setMensagem("");
+                  }}
                   onBlur={() => {
                     setErrors((prev) => ({
                       ...prev,
@@ -109,6 +117,11 @@ export default function LoginPage() {
                   </Link>
                 </div>
               </div>
+              {mensagem && (
+                <p className="text-center w-full font-semibold text-red-500">
+                  {mensagem}
+                </p>
+              )}
             </div>
 
             <div className="w-full flex justify-center pt-4">
