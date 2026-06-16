@@ -6,7 +6,7 @@ type Props = {} & React.HTMLAttributes<HTMLElement>;
 export default function CardForm({ children, className, onSubmit }: Props) {
   return (
     <Card
-      className={`rounded-2xl flex w-full max-w-6xl aspect-video overflow-auto ${className}`}
+      className={`rounded-2xl flex w-[90%] md:w-full max-w-6xl md:aspect-video overflow-auto ${className}`}
     >
       <div className="w-0 sm:w-1/2 overflow-hidden rounded-2xl">
         <img
@@ -16,7 +16,7 @@ export default function CardForm({ children, className, onSubmit }: Props) {
         />
       </div>
       
-      <div className="sm:w-1/2 p-1 mx-auto">
+      <div className="w-full sm:w-1/2 p-1 mx-auto">
         <div className="items-center p-1.5 sm:p-6">
           {children}
         </div>

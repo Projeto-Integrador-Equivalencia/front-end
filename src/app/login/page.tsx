@@ -46,7 +46,7 @@ export default function LoginPage() {
   return (
     <BackgroundGradient>
       <div className="flex flex-col items-center w-full">
-        <header className="text-left w-full mb-8 sm:w-[80%]">
+        <header className="text-left md:mb-8 md:w-[80%] sm:w-1/2">
           <p className="text-gray-600 uppercase text-sm font-bold tracking-tight">
             Preencha seus dados
           </p>
