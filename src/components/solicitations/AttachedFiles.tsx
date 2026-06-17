@@ -1,78 +1,101 @@
-import { FileText, Image, Eye } from 'lucide-react';
+import React from 'react';
+import { FileText, Image, FileDown, Eye } from 'lucide-react';
 
-
-export interface Documento {
-  id?: number | string;
-  nome: string;
-  tamanho: string;
-  onVisualizar?: () => void;
+interface DocumentItem {
+  id: number;
+  requestId: number;
+  path: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-
-interface DocumentacaoAnexadaProps {
-  documentos: Documento[];
-  titulo?: string;
+interface AttachedDocumentsProps {
+  documents?: DocumentItem[];
 }
 
-export default function DocumentacaoAnexada({ documentos, titulo = "Documentação Anexada" }: DocumentacaoAnexadaProps) {
+export const AttachedFiles: React.FC<AttachedDocumentsProps> = ({ documents = [] }) => {
   
-  if (!documentos || documentos.length === 0) {
+  
+  const getFileInfo = (path: string) => {
+    
+    const cleanName = path.replace(/^[a-f0-9]+-/, '');
+    const extension = path.split('.').pop()?.toLowerCase() || '';
+    
+    return { cleanName, extension };
+  };
+
+  
+  const renderIcon = (extension: string) => {
+    const baseIconClass = "w-10 h-10";
+    
+    if (extension === 'pdf') {
+      return (
+        <div className="text-red-500 bg-red-50 p-2 rounded">
+          <FileText className={baseIconClass} fill="currentColor" fillOpacity={0.1} />
+        </div>
+      );
+    }
+    
+    if (['jpg', 'jpeg', 'png', 'webp'].includes(extension)) {
+      return (
+        <div className="text-teal-600 bg-teal-50 p-2 rounded">
+          <Image className={baseIconClass} fill="currentColor" fillOpacity={0.1} />
+        </div>
+      );
+    }
+
     return (
-      <div className="w-full max-w-6xl mx-auto my-6 font-sans">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">{titulo}</h2>
-        <p className="text-sm text-gray-500 italic">Nenhum documento anexado.</p>
+      <div className="text-gray-500 bg-gray-50 p-2 rounded">
+        <FileDown className={baseIconClass} />
       </div>
     );
+  };
+
+  if (!documents || documents.length === 0) {
+    return null;
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-6 font-sans">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">{titulo}</h2>
-
+    <div className="w-full font-sans">
+      <h3 className="text-xl font-bold text-gray-900 mb-4">
+        Documentação Anexada
+      </h3>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {documentos.map((doc: Documento, index: number) => {
-          const ehImagem = doc.nome.toLowerCase().endsWith('.jpg') || 
-                           doc.nome.toLowerCase().endsWith('.jpeg') || 
-                           doc.nome.toLowerCase().endsWith('.png');
+        {documents.map((doc) => {
+          const { cleanName, extension } = getFileInfo(doc.path);
+          
+          
+          const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+          
+          
+          const downloadUrl = `${baseUrl}/uploads/${doc.path}`; 
 
           return (
-            <div 
-              key={doc.id || index} 
-              className="flex items-center justify-between p-4 bg-[#fcfcfc] border border-gray-200 rounded-md shadow-sm"
+            <a
+              key={doc.id}
+              href={downloadUrl}
+              download={cleanName}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors group relative cursor-pointer"
+              title={`Visualizar/Baixar ${cleanName}`}
             >
-              <div className="flex items-center gap-3 min-w-0">
-                {ehImagem ? (
-                  <div className="text-[#20a494] bg-[#eefaf8] p-2 rounded-md shrink-0">
-                    <Image className="w-7 h-7" strokeWidth={1.5} />
-                  </div>
-                ) : (
-                  <div className="text-[#ea4335] bg-[#fdf2f2] p-2 rounded-md shrink-0">
-                    <FileText className="w-7 h-7" strokeWidth={1.5} />
-                  </div>
-                )}
-
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-gray-800 truncate" title={doc.nome}>
-                    {doc.nome}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    {doc.tamanho}
-                  </p>
-                </div>
+              <div className="flex items-center gap-3 overflow-hidden mr-6">
+                {renderIcon(extension)}
+                
+                <span className="text-sm font-semibold text-gray-700 truncate">
+                  {cleanName}
+                </span>
               </div>
 
-              <button 
-                type="button"
-                onClick={() => doc.onVisualizar?.() || alert(`Abrindo: ${doc.nome}`)}
-                className="text-[#007fff] hover:text-blue-700 p-1.5 rounded-full hover:bg-blue-50 transition-colors shrink-0"
-                aria-label={`Visualizar ${doc.nome}`}
-              >
-                <Eye className="w-5 h-5" strokeWidth={2.5} />
-              </button>
-            </div>
+              <div className="text-blue-500 shrink-0">
+                <Eye className="w-5 h-5 stroke-[2.5]" />
+              </div>
+            </a>
           );
         })}
       </div>
     </div>
   );
-}
+};

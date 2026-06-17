@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
-import AttachedFiles from "@/components/solicitations/AttachedFiles";
+import { AttachedFiles } from "@/components/solicitations/AttachedFiles";
 import SolicitationDetails from "@/components/solicitations/SolicitationDetails";
 import ActionHistory from "@/components/ui/ActionHistory";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import { useAuth } from "@/hooks/userAuth";
 import { api } from "@/services/api";
+import { getRequestById } from "@/services/requestService";
 
 export default function DetalheSolicitacaoPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { token } = useAuth();
   const router = useRouter();
   
@@ -27,13 +28,11 @@ export default function DetalheSolicitacaoPage() {
       setLoading(true);
       setError("");
       try {
-        const response = await api.get(`/requests/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await getRequestById(id);
+        console.log({ response });
         
-        const dados = response.data?.data || response.data?.props || response.data;
+        const dados = response.data;
+        console.log({ dados });
         setSolicitation(dados);
       } catch (err) {
         console.error("Erro ao carregar detalhes:", err);
@@ -97,7 +96,7 @@ export default function DetalheSolicitacaoPage() {
               
               <hr className="my-6 border-gray-200" />
               
-              <AttachedFiles documentos={solicitation?.Documents || solicitation?.props?.Documents || []} />
+              <AttachedFiles documents= {solicitation?.request?.props?.Documents || []} />
               
               <hr className="my-6 border-gray-200" />
               

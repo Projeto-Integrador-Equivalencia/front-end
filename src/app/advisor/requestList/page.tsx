@@ -27,9 +27,9 @@ export default function Page() {
 
   useEffect(() => {
     if (!user || !user.id || !token) return;
-    console.log(user.id);
+
     const advisorId = user.id;
-    console.log(user.id);
+
     const courseId =
       (user as any).courseId || (user as any).props?.courseId || 1;
 
@@ -50,7 +50,7 @@ export default function Page() {
             },
           },
         );
-
+        console.log({ response });
         const requestsEncontradas = response.data.data || [];
 
         const advisorNameRequests = new Map<number, Promise<string>>();
@@ -61,9 +61,7 @@ export default function Page() {
           if (!studentNameRequests.has(studentId)) {
             studentNameRequests.set(
               studentId,
-              getStudentById(studentId).then(
-                (student) => student.name,
-              ),
+              getStudentById(studentId).then((student) => student.name),
             );
           }
           return studentNameRequests.get(studentId)!;
@@ -73,9 +71,7 @@ export default function Page() {
           if (!advisorNameRequests.has(advisorId)) {
             advisorNameRequests.set(
               advisorId,
-              getAdvisorById(advisorId).then(
-                (advisor) => advisor.name,
-              ),
+              getAdvisorById(advisorId).then((advisor) => advisor.name),
             );
           }
           return advisorNameRequests.get(advisorId)!;
@@ -124,7 +120,7 @@ export default function Page() {
             }
           }),
         );
-
+        console.log({ req });
         setRequests(req);
       } catch (err) {
         console.error(err);
