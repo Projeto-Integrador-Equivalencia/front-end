@@ -37,7 +37,7 @@ export default function SolicitationsRow({ item }: any) {
     item?.protocol ??
     item?.Protocolo ??
     "-";
-
+console.log({ item });
   const dataCriacao =
     requestProps?.createdAt ??
     requestProps?.createdat ??
