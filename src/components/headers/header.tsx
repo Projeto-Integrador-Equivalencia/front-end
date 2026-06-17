@@ -17,7 +17,7 @@ export default function Header() {
             label: 'Sair', 
             action: () => {
                 signOut(); 
-                router.push("/"); 
+                router.refresh(); 
             } 
         }
     ];

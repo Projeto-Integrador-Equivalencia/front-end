@@ -13,6 +13,9 @@ import { createAdvisor } from "@/services/AdvisorService";
 import { getCourses } from "@/services/courseService";
 import { Course } from "@/interfaces/course";
 import { useAuth } from "@/hooks/userAuth";
+import { CreateAdvisorData } from "@/interfaces/advisor";
+import { advisorCourseCreate } from "@/services/advisorCoursesService";
+import { createAdvisorCourse } from "@/interfaces/advisorCourses";
 
 export default function CadastroOrientadorPage() {
   const { token } = useAuth();
@@ -84,15 +87,28 @@ export default function CadastroOrientadorPage() {
       return;
     }
 
+    const AdvisorData: CreateAdvisorData = {
+      name: nome,
+      email: email,
+      cpf: cpf,
+      password: senha,
+    };
+
+    
     try {
-      await createAdvisor(
-        {
-          name: nome,
-          email: email,
-          cpf: cpf,
-          password: senha,
-        }
-      );
+      const resp = await createAdvisor(AdvisorData);
+      console.log({resp});
+      
+      const dataExpiracao = new Date();
+      dataExpiracao.setFullYear(dataExpiracao.getFullYear() + 1);
+
+      const VinculoData: createAdvisorCourse = {
+        advisorId: Number(resp.data.props.id),
+        courseId: Number(idCurso),
+        expirationDate: dataExpiracao.toISOString().split('T')[0],
+      }
+      console.log({VinculoData});
+      await advisorCourseCreate(VinculoData); 
 
       setMensagem("Orientador cadastrado com sucesso!");
 

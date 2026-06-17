@@ -117,7 +117,7 @@ export default function DetalheSolicitacaoPage() {
               />
             </>
           )}
-          <Link href={`/advisor/request/${id}/edit`}>
+          <Link href={`/advisor/request/${String(id)}/edit`}>
             <EditButton />
           </Link>
         </CardWhite>

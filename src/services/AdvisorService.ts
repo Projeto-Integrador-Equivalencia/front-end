@@ -1,11 +1,11 @@
-import { Advisor, CreateAdvisorData } from "@/interfaces/advisor";
+import { Advisor, ApiResponseAdvisor, CreateAdvisorData } from "@/interfaces/advisor";
 import { api } from "./api";
 
 export async function createAdvisor(
   data: CreateAdvisorData,
-): Promise<Advisor> {
+): Promise<ApiResponseAdvisor> {
   try{
-    const response = await api.post<Advisor>(`/students/`, data);
+    const response = await api.post<ApiResponseAdvisor>(`/advisors/`, data);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar um advisor/orientador:", error);

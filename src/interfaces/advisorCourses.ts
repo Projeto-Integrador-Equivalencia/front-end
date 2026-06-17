@@ -17,7 +17,7 @@ export interface advisorCourseResponse {
 export interface createAdvisorCourse {
   advisorId: number;
   courseId: number;
-  expirationDate: Date;
+  expirationDate: string;
 }
 
 export interface searchPairAdvisor {
