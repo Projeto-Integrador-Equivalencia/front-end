@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/headers/PageHeader";
 import SolicitationsTable from "@/components/solicitations/SolicitationsTable";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
 import { useAuth } from "@/hooks/userAuth";
+import { RequestListItem } from "@/interfaces/requests";
 import { getAdvisorById } from "@/services/AdvisorService";
 import { getEquivalencies } from "@/services/equivalencyService";
 import { requestGetByStudentId } from "@/services/requestService";
@@ -12,40 +13,6 @@ import { getStudentById } from "@/services/StudentService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export interface Documento {
-  id: number;
-  requestId: number;
-  path: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ExperienciaProfissional {
-  id: number;
-  role: string;
-  cnpj: string;
-  startDate: string;
-  endDate: string;
-  requestId: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface RequestListItem {
-  props: {
-    id: number;
-    protocol: string;
-    status: string;
-    observation: string;
-    studentId: number;
-    advisorId: number | null;
-    equivalencyId: number;
-    createdAt: string;
-    updatedAt: string;
-    Documents: Documento[];
-    Professional_Experience: ExperienciaProfissional[];
-  };
-}
 
 interface RequestComNomes extends RequestListItem {
   studentName?: string;

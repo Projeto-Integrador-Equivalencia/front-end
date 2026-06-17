@@ -24,7 +24,7 @@ export default function Page() {
 
     if (!authToken) return;
 
-    async function buscarCursos(authToken: string) {
+    async function buscarCursos() {
       setLoading(true);
       setError("");
 
@@ -72,7 +72,7 @@ export default function Page() {
       }
     }
 
-    buscarCursos(authToken);
+    buscarCursos();
   }, [token]);
 
   return (

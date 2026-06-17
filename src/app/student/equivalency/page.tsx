@@ -9,6 +9,8 @@ import { FormEvent, useState } from "react";
 import { useAuth } from "@/hooks/userAuth";
 import { CreateRequestInput } from "@/interfaces/requests";
 import { createRequest } from "@/services/requestService";
+import Button from "@/components/ui/Button";
+import Link from "next/link";
 
 const equivalencyIds: Record<string, number> = {
   CTPS: 1,
@@ -20,15 +22,17 @@ const equivalencyIds: Record<string, number> = {
 
 export default function Equivalency() {
   const [equivalencia, setEquivalencia] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [termos, setTermos] = useState(false);
 
   const { user, token } = useAuth();
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Validação inicial do Select
+    
     if (!equivalencia) {
-      alert("Por favor, selecione um tipo de equivalência.");
+      setMensagem("Por favor, selecione um tipo de equivalência.");
       return;
     }
 
@@ -37,12 +41,12 @@ export default function Equivalency() {
     const arquivosPreenchidos = (formData.getAll("files") as File[]).filter(
       (file) => file.name !== "" && file.size > 0,
     );
-
+    
     if (arquivosPreenchidos.length === 0) {
-      alert("Por favor, faça upload de pelo menos um documento obrigatório.");
+      setMensagem("Por favor, faça upload de pelo menos um documento obrigatório.");
       return;
     }
-
+    
     const dadosFormulario: CreateRequestInput = {
       advisorId: null,
       equivalencyId: equivalencyIds[equivalencia],
@@ -53,30 +57,33 @@ export default function Equivalency() {
           cnpj: String(formData.get("cnpj")),
           startDate: new Date(String(formData.get("startDate"))).toISOString(),
           endDate: formData.get("endDate")
-            ? new Date(String(formData.get("endDate"))).toISOString()
-            : new Date().toISOString(),
+          ? new Date(String(formData.get("endDate"))).toISOString()
+          : new Date().toISOString(),
         },
       ],
       files: arquivosPreenchidos,
     };
     console.log({ formData });
-
-     if (!dadosFormulario) {
-       alert("Você precisa aceitar os termos e condições para avançar.");
-       return;
+    
+    if (!termos) {
+      setMensagem("Você precisa aceitar os termos e condições para avançar.");
+      return;
     }
-
+    
     console.log("Dados prontos para envio:", dadosFormulario);
-
+    
+    setMensagem("Carregando...");
     try {
-      await createRequest(dadosFormulario, token || "");
-      alert("Solicitação enviada com sucesso!");
-      currentForm.reset(); // Limpa o formulário após o sucesso
+      await createRequest(dadosFormulario);
+      setMensagem("Solicitação enviada com sucesso!");
+      setSuccess(true);
+      currentForm.reset();
       setEquivalencia("");
+      setTermos(false);
     } catch (error: any) {
       console.error("Erro ao enviar:", error);
       console.log("Objeto de erro do Backend:", error.response.data);
-      alert("Ocorreu um erro ao enviar a solicitação.");
+      setMensagem("Ocorreu um erro ao enviar a solicitação.");
     }
   };
 
@@ -218,6 +225,17 @@ export default function Equivalency() {
                       {uploadButtonsPorEquivalencia[equivalencia]}
                     </div>
                   )}
+
+                  {mensagem && (
+                    <p className="text-center w-full font-semibold text-red-500">
+                      {mensagem}
+                    </p>
+                  )}
+                  {success && (
+                    <Link className="text-center w-full font-semibold" href="./requestList">
+                      <Button label="Acompanhar solicitações" variant="primary" />
+                    </Link>
+                  )}
                 </div>
               }
               rightContent={
@@ -249,6 +267,8 @@ export default function Equivalency() {
                       type="checkbox"
                       className="w-5 h-5 rounded border-zinc-300 accent-red-600"
                       id="check-termos"
+                      checked={termos}
+                      onChange={(e) => setTermos(e.target.checked)}
                     />
                     <label
                       htmlFor="check-termos"

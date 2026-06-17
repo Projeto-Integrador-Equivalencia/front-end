@@ -11,41 +11,7 @@ import { api } from "@/services/api";
 import { getStudentById } from "@/services/StudentService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-export interface Documento {
-  id: number;
-  requestId: number;
-  path: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ExperienciaProfissional {
-  id: number;
-  role: string;
-  cnpj: string;
-  startDate: string;
-  endDate: string;
-  requestId: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface RequestListItem {
-  props: {
-    id: number;
-    protocol: string;
-    status: string;
-    observation: string;
-    studentId: number;
-    advisorId: number | null;
-    equivalencyId: number;
-    createdAt: string;
-    updatedAt: string;
-    Documents: Documento[];
-    Professional_Experience: ExperienciaProfissional[];
-  };
-}
+import { RequestListItem } from "@/interfaces/requests";
 
 interface RequestComNomes extends RequestListItem {
   studentName?: string;
