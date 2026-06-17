@@ -42,7 +42,7 @@ export default function CoursesTable({ data }: CoursesTableProps) {
 
   return (
     <div>
-      <div>
+      <div className="overflow-x-auto min-w-120">
         <TableHeader columns={ColunasTabela} />
         <Table>
           {currentData.map((item) => (
