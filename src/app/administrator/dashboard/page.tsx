@@ -6,20 +6,21 @@ export default function StudentDashboard() {
   const router = useRouter();
   return (
     <BackgroundWhiteRed>
-      <div className="flex flex-col gap-15">
-        <div className="flex flex-col ml-105 mt-5">
-          <p className="font-bold">EQUIVALÊNCIA DE ESTÁGIO</p>
-          <h1 className="text-5xl font-bold">
+      <div className="flex flex-col md:gap-15">
+
+        <div className="flex flex-col mx-auto md:ml-105 mt-5 mb-10">
+          <p className="text-sm font-bold">EQUIVALÊNCIA DE ESTÁGIO</p>
+          <h1 className="text-xl md:text-5xl font-bold">
             Selecione o tipo de serviço<span className="text-red-600">.</span>
           </h1>
         </div>
-        <div className="flex justify-center space-x-50">
+
+        <div className="flex flex-col space-y-5 mx-auto md:flex-row md:justify-center md:space-x-30">
           <button onClick={() => router.push("./courseList")}>
-            <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
-              <div className="flex justify-center">
+            <div className="flex flex-col h-1/4 w-50 md:h-100 md:w-80 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80 space-y-1 md:space-y-5">
+              <div className="flex mx-auto">
                 <svg
-                  width="200"
-                  height="200"
+                  className="w-16 h-auto md:w-40"
                   viewBox="0 0 250 250"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -36,15 +37,15 @@ export default function StudentDashboard() {
                   />
                 </svg>
               </div>
-              <h1 className="flex justify-center font-bold text-4xl">Cursos</h1>
-              <p className="text-center text-gray-500 text-opacity-50 font-bold">
-                Configure, edite e crie cursos <br />
-                relacionados ao sistema.
+              <h1 className="flex justify-center font-bold tex-base md:text-4xl">Cursos</h1>
+              <p className="text-xs md:text-sm text-center text-gray-500 text-opacity-50 font-bold">
+                Configure, edite e crie <br />
+                cursos relacionados ao <br/>
+                sistema.
               </p>
               <div className="flex justify-center">
                 <svg
-                  width="48"
-                  height="48"
+                  className="w-8 h-auto md:w-12"
                   viewBox="0 0 60 60"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -68,11 +69,10 @@ export default function StudentDashboard() {
           </button>
 
           <button onClick={() => router.push("./advisorRegister")}>
-            <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
-              <div className="flex ml-20 border-white">
+            <div className="flex flex-col h-1/4 w-50 md:h-100 md:w-80 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80 space-y-1 md:space-y-5">
+              <div className="flex mx-auto">
                 <svg
-                  width="200"
-                  height="200"
+                  className="w-16 h-auto md:w-40"
                   viewBox="0 0 250 250"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -83,18 +83,17 @@ export default function StudentDashboard() {
                   />
                 </svg>
               </div>
-              <h1 className="flex justify-center font-bold text-4xl">
+              <h1 className="flex justify-center font-bold text-lg md:text-4xl">
                 Orientadores
               </h1>
-              <p className="text-center text-gray-500 text-opacity-50 font-bold">
+              <p className="text-xs md:text-sm text-center text-gray-500 text-opacity-50 font-bold">
                 Configure, edite e crie <br />
                 orientadores relacionadas ao <br />
                 sistema.
               </p>
               <div className="flex justify-center">
                 <svg
-                  width="48"
-                  height="48"
+                  className="w-8 h-auto md:w-12"
                   viewBox="0 0 60 60"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -118,11 +117,10 @@ export default function StudentDashboard() {
           </button>
 
           <button onClick={() => router.push("./registerAdministrator")}>
-            <div className="flex flex-col h-120 w-85 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80">
-              <div className="flex justify-center">
+            <div className="flex flex-col h-1/4 w-50 md:h-100 md:w-80 border-2 border-gray-200 border-opacity-25 bg-white shadow-2xl shadow-black-80 space-y-1 md:space-y-5">
+              <div className="flex mx-auto">
                 <svg
-                  width="200"
-                  height="200"
+                  className="w-16 h-auto md:w-40"
                   viewBox="0 0 250 250"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -133,18 +131,17 @@ export default function StudentDashboard() {
                   />
                 </svg>
               </div>
-              <h1 className="flex justify-center font-bold text-4xl">
+              <h1 className="flex justify-center font-bold text-lg md:text-4xl">
                 Administradores
-              </h1>
-              <p className="text-center text-gray-500 text-opacity-50 font-bold">
+              </h1> 
+              <p className="text-xs md:text-sm  text-center text-gray-500 text-opacity-50 font-bold">
                 Configura, edite e crie <br />
                 administradores relacionados <br />
                 ao sistema.
               </p>
               <div className="flex justify-center">
                 <svg
-                  width="48"
-                  height="48"
+                  className="w-8 h-auto md:w-12"
                   viewBox="0 0 60 60"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
