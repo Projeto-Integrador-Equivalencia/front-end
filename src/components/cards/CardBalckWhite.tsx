@@ -5,7 +5,7 @@ interface CardBlackWhiteProps {
 
 export default function CardBlackWhiteProps({ leftContent, rightContent }: CardBlackWhiteProps) {
   return (
-    <div className="flex flex-col space-y-15 md:flex-row bg-white rounded-2xl overflow-hidden mx-auto w-full max-w-275 min-h-162.5 shadow-xl relative">
+    <div className="flex flex-col space-y-15 md:space-y-0 md:flex-row bg-white rounded-2xl overflow-hidden mx-auto w-full max-w-275 min-h-162.5 shadow-xl relative">
       
       <div className="flex sm:w-[40%] bg-zinc-950 p-8 flex-col justify-center items-center relative">
         {leftContent}
