@@ -8,9 +8,9 @@ import {
 } from "@/interfaces/equivalency";
 import { api } from "./api";
 
-export async function getEquivalencies(): Promise<EquivalencyData[]>{
+export async function getEquivalencies(): Promise<EquivalencyData>{
   try {
-    const response = await api.get<EquivalencyData[]>("/equivalencies/");
+    const response = await api.get<EquivalencyData>("/equivalencies/");
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar equivalências:", error);

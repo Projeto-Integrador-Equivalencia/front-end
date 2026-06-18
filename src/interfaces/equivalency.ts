@@ -1,18 +1,17 @@
 export interface EquivalencyData {
-  
-  status: string,
+  status: string;
   data: [
     {
       props: {
-        id: number,
-        name: string,
-        description: string,
-        createdAt: string,
-        updatedAt: string,
-        courseId: number
-      }
-    }
-  ]
+        id: number;
+        name: string;
+        description: string;
+        createdAt: string;
+        updatedAt: string;
+        courseId: number;
+      };
+    },
+  ];
 }
 
 export interface EquivalencyListResponse {
@@ -35,7 +34,7 @@ export interface CreateEquivalency {
 
 export interface EquivalencyCreateResponse {
   status: string;
-  data?: any; 
+  data?: any;
 }
 
 export interface UpdateEquivalency {
@@ -47,4 +46,9 @@ export interface UpdateEquivalency {
 export interface EquivalencyUpdateResponse {
   status: string;
   data?: any;
+}
+
+export interface option {
+  value: number;
+  label: string;
 }

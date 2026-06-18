@@ -5,32 +5,50 @@ import CardBlackWhite from "@/components/cards/CardBalckWhite";
 import EquivalencySelect from "@/components/inputs/EquivalencySelect";
 import BackgroundWhiteRed from "@/components/backgrounds/WhiteRedBackground";
 import Input from "@/components/ui/Input";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "@/hooks/userAuth";
 import { CreateRequestInput } from "@/interfaces/requests";
 import { createRequest } from "@/services/requestService";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
-
-const equivalencyIds: Record<string, number> = {
-  CTPS: 1,
-  Militar: 2,
-  "Autônomo Inscrito": 3,
-  "Autônomo Não Inscrito": 4,
-  Proprietário: 5,
-};
+import { option } from "@/interfaces/equivalency";
+import { getEquivalencies } from "@/services/equivalencyService";
 
 export default function Equivalency() {
-  const [equivalencia, setEquivalencia] = useState("");
+  const [equivalencia, setEquivalencia] = useState<number | undefined>();
   const [mensagem, setMensagem] = useState("");
   const [success, setSuccess] = useState(false);
   const [termos, setTermos] = useState(false);
+  const [equivalencyOptions, setEquivalencyOptions] = useState<option[]>([]);
+  const [loadingOptions, setLoadingOptions] = useState(false);
 
   const { user, token } = useAuth();
+  const getEquivalency = async () => {
+    try {
+      setLoadingOptions(true);
+      const response = await getEquivalencies();
+      console.log({ response });
+      const dado: option[] = response?.data?.map((item) => ({
+        value: item.props.id,
+        label: item.props.name,
+      }));
+      console.log({ response, dado });
+
+      setEquivalencyOptions(dado);
+      setLoadingOptions(false);
+    } catch (error) {
+      setLoadingOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log("teste");
+    getEquivalency();
+  }, []);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!equivalencia) {
       setMensagem("Por favor, selecione um tipo de equivalência.");
       return;
@@ -41,15 +59,17 @@ export default function Equivalency() {
     const arquivosPreenchidos = (formData.getAll("files") as File[]).filter(
       (file) => file.name !== "" && file.size > 0,
     );
-    
+
     if (arquivosPreenchidos.length === 0) {
-      setMensagem("Por favor, faça upload de pelo menos um documento obrigatório.");
+      setMensagem(
+        "Por favor, faça upload de pelo menos um documento obrigatório.",
+      );
       return;
     }
-    
+
     const dadosFormulario: CreateRequestInput = {
       advisorId: null,
-      equivalencyId: equivalencyIds[equivalencia],
+      equivalencyId: equivalencia,
       studentId: user!.id,
       experiences: [
         {
@@ -57,28 +77,27 @@ export default function Equivalency() {
           cnpj: String(formData.get("cnpj")),
           startDate: new Date(String(formData.get("startDate"))).toISOString(),
           endDate: formData.get("endDate")
-          ? new Date(String(formData.get("endDate"))).toISOString()
-          : new Date().toISOString(),
+            ? new Date(String(formData.get("endDate"))).toISOString()
+            : new Date().toISOString(),
         },
       ],
       files: arquivosPreenchidos,
     };
     console.log({ formData });
-    
+
     if (!termos) {
       setMensagem("Você precisa aceitar os termos e condições para avançar.");
       return;
     }
-    
+
     console.log("Dados prontos para envio:", dadosFormulario);
-    
+
     setMensagem("Carregando...");
     try {
       await createRequest(dadosFormulario);
       setMensagem("Solicitação enviada com sucesso!");
       setSuccess(true);
       currentForm.reset();
-      setEquivalencia("");
       setTermos(false);
     } catch (error: any) {
       console.error("Erro ao enviar:", error);
@@ -88,7 +107,7 @@ export default function Equivalency() {
   };
 
   const uploadButtonsPorEquivalencia: Record<string, React.ReactNode[]> = {
-    CTPS: [
+    1: [
       <UploadButton
         key="ctps-capa"
         id="ctps-capa"
@@ -108,7 +127,7 @@ export default function Equivalency() {
         text="Documento que contém o RG e CPF"
       />,
     ],
-    Militar: [
+    2: [
       <UploadButton
         key="militar-cartao"
         id="militar-cartao"
@@ -128,7 +147,7 @@ export default function Equivalency() {
         text="Documento que contém o RG e CPF"
       />,
     ],
-    "Autônomo Inscrito": [
+    3: [
       <UploadButton
         key="autonomo-inscricao"
         id="autonomo_inscrito-inscricao"
@@ -148,7 +167,7 @@ export default function Equivalency() {
         text="Documento que contém o RG e CPF"
       />,
     ],
-    "Autônomo Não Inscrito": [
+    4: [
       <UploadButton
         key="autonomo-nao-declaracao"
         id="autonomo_nao_inscrito-declaracao"
@@ -162,7 +181,7 @@ export default function Equivalency() {
         text="Documento que contém o RG e CPF"
       />,
     ],
-    Proprietário: [
+    5: [
       <UploadButton
         key="proprietario-social"
         id="proprietario-social"
@@ -183,6 +202,11 @@ export default function Equivalency() {
       />,
     ],
   };
+
+  if (loadingOptions) {
+    return <>Carregando...</>;
+  }
+
   return (
     <BackgroundWhiteRed>
       <div className="flex flex-col min-h-screen w-full">
@@ -210,6 +234,7 @@ export default function Equivalency() {
                     </div>
                     <EquivalencySelect
                       value={equivalencia}
+                      options={equivalencyOptions}
                       onChange={setEquivalencia}
                     />
                   </div>
@@ -232,8 +257,14 @@ export default function Equivalency() {
                     </p>
                   )}
                   {success && (
-                    <Link className="text-center w-full font-semibold" href="./requestList">
-                      <Button label="Acompanhar solicitações" variant="primary" />
+                    <Link
+                      className="text-center w-full font-semibold"
+                      href="./requestList"
+                    >
+                      <Button
+                        label="Acompanhar solicitações"
+                        variant="primary"
+                      />
                     </Link>
                   )}
                 </div>
