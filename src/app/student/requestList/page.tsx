@@ -27,103 +27,51 @@ export default function Page() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!user || !user.id || !token) return;
+  if (!user || !user.id || !token) return;
 
-    async function buscarSolicitacoes() {
-      setLoading(true);
-      setError("");
+  async function buscarSolicitacoes() {
+    setLoading(true);
+    setError("");
 
-      try {
-        const requestsEncontradas = await requestGetByStudentId(
-          user!.id);
+    try {
+        const [requestsResponse, equivalenciesResponse] = await Promise.all([
+          requestGetByStudentId(user!.id),
+          getEquivalencies()
+        ]);
 
-        const advisorNameRequests = new Map<number, Promise<string>>();
-        const studentNameRequests = new Map<number, Promise<string>>();
-        const equivalenceNameRequests = new Map<number, Promise<string>>();
+        const listaEquivalencias = equivalenciesResponse?.data || [];
 
-        function getStudentName(studentId: number) {
-          if (!studentNameRequests.has(studentId)) {
-            studentNameRequests.set(
-              studentId,
-              getStudentById(studentId).then(
-                (student) => student.name,
-              ),
-            );
-          }
-          return studentNameRequests.get(studentId)!;
-        }
+        const req = requestsResponse.map((item) => {
+          
+          const equivalenciaEncontrada = listaEquivalencias.find(
+            (eq) => eq.props.id === item.props.equivalencyId
+          );
 
-        function getAdvisorName(advisorId: number) {
-          if (!advisorNameRequests.has(advisorId)) {
-            advisorNameRequests.set(
-              advisorId,
-              getAdvisorById(advisorId).then(
-                (advisor) => advisor.name,
-              ),
-            );
-          }
-          return advisorNameRequests.get(advisorId)!;
-        }
+          const nomeEquivalencia = equivalenciaEncontrada 
+            ? equivalenciaEncontrada.props.name 
+            : "Não encontrada";
 
-        function getEquivalence(equivalenceId: number) {
-          if (!equivalenceNameRequests.has(equivalenceId)) {
-            equivalenceNameRequests.set(
-              equivalenceId,
-              getEquivalencies().then((res: any) => {
-                const lista = Array.isArray(res) ? res : res?.data || [];
-
-                const eq = lista.find((item: any) => {
-                  const id = item?.props?.id ?? item?.id;
-                  return id === equivalenceId;
-                });
-
-                if (eq) {
-                  return eq.props?.name ?? eq.name ?? "Sem nome";
-                }
-
-                return "Não encontrada";
-              }),
-            );
-          }
-          return equivalenceNameRequests.get(equivalenceId)!;
-        }
-
-        const req = await Promise.all(
-          requestsEncontradas.map(async (item) => {
-            try {
-              const props = item.props;
-
-              if (!props) return item;
-
-              const studentName = await getStudentName(
-                props.studentId ?? user!.id,
-              );
-              const advisorName = props.advisorId
-                ? await getAdvisorName(props.advisorId)
-                : "Não atribuído";
-              const equivalence = props.equivalencyId
-                ? await getEquivalence(props.equivalencyId)
-                : "Não especificada";
-
-              return { ...item, studentName, advisorName, equivalence };
-            } catch (err) {
-              console.error("Erro ao processar detalhes da solicitação:", err);
-              return item;
-            }
-          }),
-        );
+          return {
+            ...item,
+            studentName: user?.name || "Minha Solicitação",
+            
+            advisorName: item.props.advisorId ? "Atribuído" : "Não atribuído",
+            
+            equivalence: nomeEquivalencia,
+          };
+        });
 
         setRequests(req);
       } catch (err) {
-        console.error(err);
+        console.error("Erro ao carregar dados da página:", err);
         setError("Erro ao carregar solicitações");
       } finally {
         setLoading(false);
       }
-    }
+  }
 
-    buscarSolicitacoes();
-  }, [user]);
+  buscarSolicitacoes();
+}, [user, token]);
 
   return (
     <div className="bg-c02">
