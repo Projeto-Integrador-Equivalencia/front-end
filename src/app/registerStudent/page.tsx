@@ -179,9 +179,14 @@ export default function CadastroAlunoPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => {
+                    const emailRegex = /^[a-zA-Z0-9]+@aluno\.cps\.sp\.gov\.br$/;
                     setErrors((prev) => ({
                       ...prev,
-                      email: !email ? "Campo obrigatório" : undefined,
+                      email: !email 
+                        ? "Campo obrigatorio" 
+                        : !emailRegex.test(email)
+                          ? "Email inválido. Use: nome@aluno.cps.sp.gov.br"
+                          : undefined,
                     }));
                   }}
                   error={errors.email}
@@ -239,11 +244,17 @@ export default function CadastroAlunoPage() {
                   label="RA"
                   placeholder="Digite seu RA"
                   value={ra}
-                  onChange={(e) => setRa(e.target.value)}
+                  onChange={(e) => {
+                    const numericValue = e.target.value.replace(/\D/g, "").slice(0,10);
+                    setRa(e.target.value)}}
                   onBlur={() => {
                     setErrors((prev) => ({
                       ...prev,
-                      ra: !ra ? "Campo obrigatório" : undefined,
+                      ra: !ra 
+                        ? "Campo obrigatório" 
+                        : ra.length != 10
+                          ? "RA deve ter exatamente 10 digitos numéricos"
+                          : undefined,
                     }));
                   }}
                   error={errors.ra}

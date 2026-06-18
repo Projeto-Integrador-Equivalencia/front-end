@@ -94,21 +94,20 @@ export default function CadastroOrientadorPage() {
       password: senha,
     };
 
-    
     try {
       const resp = await createAdvisor(AdvisorData);
-      console.log({resp});
-      
+      console.log({ resp });
+
       const dataExpiracao = new Date();
       dataExpiracao.setFullYear(dataExpiracao.getFullYear() + 1);
 
       const VinculoData: createAdvisorCourse = {
         advisorId: Number(resp.data.props.id),
         courseId: Number(idCurso),
-        expirationDate: dataExpiracao.toISOString().split('T')[0],
-      }
-      console.log({VinculoData});
-      await advisorCourseCreate(VinculoData); 
+        expirationDate: dataExpiracao.toISOString().split("T")[0],
+      };
+      console.log({ VinculoData });
+      await advisorCourseCreate(VinculoData);
 
       setMensagem("Orientador cadastrado com sucesso!");
 
@@ -176,9 +175,14 @@ export default function CadastroOrientadorPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => {
+                    const emailRegex = /^[a-zA-Z0-9]+@cps\.sp\.gov\.br$/;
                     setErrors((prev) => ({
                       ...prev,
-                      email: !email ? "Campo obrigatório" : undefined,
+                      email: !email
+                        ? "Campo obrigatorio"
+                        : !emailRegex.test(email)
+                          ? "Email inválido. Use: nome@cps.sp.gov.br"
+                          : undefined,
                     }));
                   }}
                   error={errors.email}
