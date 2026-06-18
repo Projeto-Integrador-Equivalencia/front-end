@@ -99,7 +99,7 @@ export default function SolicitationsRow({ item }: any) {
             />
           </svg>
         </Link>
-        {item.advisorName && (
+        {role === "advisor" && item.advisorName && (
           <button
             onClick={handleAssignAdvisor}
             disabled={loading}
