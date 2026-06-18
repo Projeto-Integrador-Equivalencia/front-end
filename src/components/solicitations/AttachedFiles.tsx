@@ -69,7 +69,7 @@ export const AttachedFiles: React.FC<AttachedDocumentsProps> = ({ documents = []
           const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
           
           
-          const downloadUrl = `${baseUrl}/uploads/${doc.path}`; 
+          const downloadUrl = `${baseUrl}/requests/uploads/${doc.path}`; 
 
           return (
             <a
