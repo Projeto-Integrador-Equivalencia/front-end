@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { Option, Select } from "@/components/ui/Select";
 import {
+  getRequestById,
   RequestStatus,
   updateRequestObservation,
   updateRequestStatus,
@@ -54,14 +55,9 @@ export default function EditarSolicitacaoPage() {
       setError("");
 
       try {
-        const response = await api.get(`/requests/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await getRequestById(String(id));
 
-        const dados =
-          response.data?.data || response.data?.props || response.data;
+        const dados = response.data;
 
         setSolicitation(dados);
         setObservation(dados?.request?.props?.observation ?? "");
