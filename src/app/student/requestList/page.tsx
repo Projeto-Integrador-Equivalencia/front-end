@@ -13,7 +13,6 @@ import { getStudentById } from "@/services/StudentService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-
 interface RequestComNomes extends RequestListItem {
   studentName?: string;
   advisorName?: string;

@@ -1,6 +1,6 @@
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
-import AttachedFiles from "@/components/solicitations/AttachedFiles";
+import  AttachedFiles  from "@/components/solicitations/AttachedFiles";
 import SolicitationDetails from "@/components/solicitations/SolicitationDetails";
 import ActionHistory from "@/components/ui/ActionHistory";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";

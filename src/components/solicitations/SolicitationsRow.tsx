@@ -1,14 +1,13 @@
 import TableRow from "@/components/ui/Table/TableRow";
 import TableCell from "@/components/ui/Table/TableCell";
 import Link from "next/link";
-import { userAgent } from "next/server";
 import { useAuth } from "@/hooks/userAuth";
 
 const estilosStatus = {
   aprovado: "bg-green-500 text-green-950 font-semibold",
   reprovado: "bg-red-500 text-red-950 font-semibold",
   pendente: "bg-yellow-500 text-yellow-950 font-semibold",
-  "em análise": "bg-yellow-500 text-yellow-950 font-semibold",
+  "em anÃ¡lise": "bg-yellow-500 text-yellow-950 font-semibold",
 };
 
 function formatDate(value?: string) {
@@ -20,6 +19,7 @@ function formatDate(value?: string) {
 
 export default function SolicitationsRow({ item }: any) {
   const { user } = useAuth();
+
   const requestProps = item?.props ?? item?.data?.request?.props ?? item;
 
   const role = user?.role;
@@ -28,8 +28,10 @@ export default function SolicitationsRow({ item }: any) {
   const statusReal = requestProps?.status ?? item?.status ?? "Pendente";
   const statusFormatado =
     statusReal.toLowerCase() as keyof typeof estilosStatus;
+
   const estiloDinamico =
-    estilosStatus[statusFormatado] || "bg-gray-200 text-gray-800 font-semibold";
+    estilosStatus[statusFormatado] ||
+    "bg-gray-200 text-gray-800 font-semibold";
 
   const protocoloReal =
     requestProps?.protocol ??
@@ -63,26 +65,16 @@ export default function SolicitationsRow({ item }: any) {
       <TableCell>{formatDate(dataCriacao)}</TableCell>
 
       <TableCell>
-        
         <Link
-          href={`/${role}/request/${idReal}`}
+          href={{
+            pathname: `/${role}/request/${idReal}`,
+            query: {
+              data: JSON.stringify(item),
+            },
+          }}
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs py-1.5 px-3 rounded transition-colors inline-flex items-center gap-1 select-none"
         >
           <span>Visualizar</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-3 h-3"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-            />
-          </svg>
         </Link>
       </TableCell>
     </TableRow>

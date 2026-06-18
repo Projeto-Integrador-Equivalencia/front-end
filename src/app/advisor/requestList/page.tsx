@@ -11,130 +11,67 @@ import { api } from "@/services/api";
 import { getStudentById } from "@/services/StudentService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { RequestListItem } from "@/interfaces/requests";
-
-interface RequestComNomes extends RequestListItem {
-  studentName?: string;
-  advisorName?: string;
-  equivalence?: string;
-}
 
 export default function Page() {
   const { token, user } = useAuth();
-  const [requests, setRequests] = useState<RequestComNomes[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!user || !user.id || !token) return;
-    console.log(user.id);
-    const advisorId = user.id;
-    console.log(user.id);
-    const courseId =
-      (user as any).courseId || (user as any).props?.courseId || 1;
+    if (!user || !token) return;
 
-    async function buscarSolicitacoesPorCurso(
-      authToken: string,
-      advId: number,
-      crsId: number,
-    ) {
+    async function buscar() {
       setLoading(true);
-      setError("");
 
       try {
-        const response = await api.get<{ data: RequestListItem[] }>(
-          `/requests/advisor/${advId}/course/${crsId}`,
+        const response = await api.get(
+          `/requests/advisor/${user.id}/course/${user.courseId || 1}`,
           {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           },
         );
 
-        const requestsEncontradas = response.data.data || [];
+        const data = response.data.data || [];
 
-        const advisorNameRequests = new Map<number, Promise<string>>();
-        const studentNameRequests = new Map<number, Promise<string>>();
-        const equivalenceNameRequests = new Map<number, Promise<string>>();
+        const enriched = await Promise.all(
+          data.map(async (item: any) => {
+            const props = item.props;
 
-        function getStudentName(studentId: number) {
-          if (!studentNameRequests.has(studentId)) {
-            studentNameRequests.set(
-              studentId,
-              getStudentById(studentId).then(
-                (student) => student.name,
-              ),
-            );
-          }
-          return studentNameRequests.get(studentId)!;
-        }
+            const student = props.studentId
+              ? await getStudentById(props.studentId)
+              : null;
 
-        function getAdvisorName(advisorId: number) {
-          if (!advisorNameRequests.has(advisorId)) {
-            advisorNameRequests.set(
-              advisorId,
-              getAdvisorById(advisorId).then(
-                (advisor) => advisor.name,
-              ),
-            );
-          }
-          return advisorNameRequests.get(advisorId)!;
-        }
+            const advisor = props.advisorId
+              ? await getAdvisorById(props.advisorId)
+              : null;
 
-        function getEquivalence(equivalenceId: number) {
-          if (!equivalenceNameRequests.has(equivalenceId)) {
-            equivalenceNameRequests.set(
-              equivalenceId,
-              getEquivalencies().then((res: any) => {
-                const lista = Array.isArray(res) ? res : res?.data || [];
-                const eq = lista.find((item: any) => {
-                  const id = item?.props?.id ?? item?.id;
-                  return id === equivalenceId;
-                });
-                if (eq) {
-                  return eq.props?.name ?? eq.name ?? "Sem nome";
-                }
-                return "Não encontrada";
-              }),
-            );
-          }
-          return equivalenceNameRequests.get(equivalenceId)!;
-        }
+            const eqResponse = await getEquivalencies();
+            const eqList = eqResponse.data;
 
-        const req = await Promise.all(
-          requestsEncontradas.map(async (item) => {
-            try {
-              const props = item.props;
-              if (!props) return item;
+            const eq = eqList.find((e: any) => {
+              const id = e?.props?.id;
+              return id === props.equivalencyId;
+            });
 
-              const studentName = props.studentId
-                ? await getStudentName(props.studentId)
-                : "Não informado";
-              const advisorName = props.advisorId
-                ? await getAdvisorName(props.advisorId)
-                : "Não atribuído";
-              const equivalence = props.equivalencyId
-                ? await getEquivalence(props.equivalencyId)
-                : "Não especificada";
-
-              return { ...item, studentName, advisorName, equivalence };
-            } catch (err) {
-              console.error("Erro ao processar detalhes da solicitação:", err);
-              return item;
-            }
+            return {
+              ...item,
+              studentName: student?.name,
+              advisorName: advisor?.name,
+              equivalence: eq?.props?.name ?? "Sem nome",
+            };
           }),
         );
 
-        setRequests(req);
-      } catch (err) {
-        console.error(err);
+        setRequests(enriched);
+      } catch {
         setError("Erro ao carregar solicitações");
       } finally {
         setLoading(false);
       }
     }
 
-    buscarSolicitacoesPorCurso(token, advisorId, courseId);
+    buscar();
   }, [token, user]);
 
   return (
@@ -143,45 +80,17 @@ export default function Page() {
         description="Visualize as solicitações realizadas"
         title="Solicitações dos Alunos."
       />
-      <div className="pb-16 pt-16 grid size-full grid-cols-1 place-items-center">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm w-fit select-none mb-4"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2.5}
-            stroke="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-            />
-          </svg>
-          <span>Sair da conta</span>
-        </Link>
+
+      <div className="pb-16 pt-16 grid place-items-center">
+        <Link href="/">Sair</Link>
+
         <CardWhite>
-          {loading && (
-            <p className="py-20 text-center font-semibold text-zinc-500">
-              Carregando solicitações...
-            </p>
-          )}
-
-          {error && (
-            <p className="py-20 text-center font-semibold text-red-500">
-              {error}
-            </p>
-          )}
-
+          {loading && <p>Carregando...</p>}
+          {error && <p>{error}</p>}
           {!loading && !error && <SolicitationsTable data={requests} />}
         </CardWhite>
-        <div>
-          <DecorativeDots variant="bottom" />
-        </div>
+
+
       </div>
     </div>
   );
