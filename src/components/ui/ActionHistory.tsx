@@ -1,53 +1,104 @@
-
-
-export interface AcaoHistorico {
-  id?: number | string;
-  data: string;
-  acao: string;
-  autor: string;
-  tipoStatus: 'criado' | 'analise' | 'aprovado'; 
+export interface LogProps {
+  id: string;
+  requestId: number;
+  author: string;
+  authorRole: string;
+  action: string;
+  createdAt: string;
 }
 
 interface ActionHistoryProps {
   requestId: string | number;
-  historico?: any[];
+  historico?: { props: LogProps }[];
   titulo?: string;
 }
 
-export default function ActionHistory({ requestId, historico = [] }: ActionHistoryProps){
+export default function ActionHistory({
+  requestId,
+  historico = [],
+}: ActionHistoryProps) {
 
- const listaDeAcoes = historico.length > 0 ? historico : [
-    { data: "08, Fev, 2026", acao: "Solicitação Criada", autor: "Guilherme" }
-  ];
+  const formatarData = (dataIso: string) => {
+    try {
+      const data = new Date(dataIso);
+      return data.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    } catch {
+      return dataIso;
+    }
+  };
 
+  const obterTipoStatus = (action: string): 'criado' | 'analise' | 'aprovado' => {
+    const acaoLower = action.toLowerCase();
+    if (acaoLower.includes('criada') || acaoLower.includes('criou')) {
+      return 'criado';
+    }
+    if (acaoLower.includes('analise') || acaoLower.includes('pendente')) {
+      return 'analise';
+    }
+    if (acaoLower.includes('aprovado') || acaoLower.includes('concluido')) {
+      return 'aprovado';
+    }
+    return 'analise';
+  };
+
+  const listaDeAcoes = historico.length > 0 
+    ? historico.map(log => ({
+        id: log.props.id,
+        data: formatarData(log.props.createdAt),
+        acao: log.props.action,
+        autor: log.props.author,
+        tipoStatus: obterTipoStatus(log.props.action)
+      }))
+    : [
+        { id: 'mock', data: "08, Fev, 2026", acao: "Solicitação Criada", autor: "Guilherme", tipoStatus: 'criado' as const }
+      ];
 
   const renderizarIconeStatus = (tipo: string) => {
     switch (tipo) {
-      case 'criado':
+      case "criado":
         return (
           <div className="text-[#f1b404] bg-white z-10 p-0.5 rounded-full">
-          
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
           </div>
         );
-      case 'analise':
+      case "analise":
         return (
           <div className="text-[#006fee] bg-white z-10 p-0.5 rounded-full">
-     
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
               <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
               <circle cx="12" cy="12" r="3" />
             </svg>
           </div>
         );
-      case 'aprovado':
+      case "aprovado":
         return (
           <div className="text-[#17b204] bg-white z-10 p-0.5 rounded-full">
-           
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="3"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
@@ -59,19 +110,18 @@ export default function ActionHistory({ requestId, historico = [] }: ActionHisto
 
   return (
     <div className="w-full max-w-6xl mx-auto my-6 font-sans">
-      
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Histórico de Ações</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">
+        Histórico de Ações
+      </h2>
 
       <div className="relative flex flex-col pl-2">
-        
         <div className="absolute left-4.25 top-3 bottom-3 w-px bg-gray-200 z-0" />
 
         {listaDeAcoes.map((item, index) => (
-          <div 
-            key={item.id || index} 
+          <div
+            key={item.id || index}
             className="flex flex-col sm:flex-row sm:items-center items-start gap-4 sm:gap-12 relative py-4 first:pt-0 last:pb-0"
           >
-           
             <div className="flex items-center gap-4 min-w-35">
               {renderizarIconeStatus(item.tipoStatus)}
               <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">
@@ -87,12 +137,14 @@ export default function ActionHistory({ requestId, historico = [] }: ActionHisto
 
             <div className="pl-9 sm:pl-0">
               <span className="text-sm text-gray-600">
-                Autor: <span className="font-semibold text-gray-700">{item.autor}</span>
+                Autor:{" "}
+                <span className="font-semibold text-gray-700">
+                  {item.autor}
+                </span>
               </span>
             </div>
           </div>
         ))}
-
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation"; // 1. IMPORTADO O USEROUTER AQUI
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
-import AttachedFiles from "@/components/solicitations/AttachedFiles";
+import { AttachedFiles } from "@/components/solicitations/AttachedFiles";
 import SolicitationDetails from "@/components/solicitations/SolicitationDetails";
 import ActionHistory from "@/components/ui/ActionHistory";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
@@ -12,13 +12,15 @@ import { useAuth } from "@/hooks/userAuth";
 import { api } from "@/services/api";
 import Link from "next/link";
 import EditButton from "@/components/ui/UpdateButton";
+import { getRequestById } from "@/services/requestService";
+import { getRequestInfo } from "@/interfaces/requests";
 
 export default function DetalheSolicitacaoPage() {
   const { id } = useParams();
   const { token } = useAuth();
   const router = useRouter();
 
-  const [solicitation, setSolicitation] = useState<any>(null);
+  const [solicitation, setSolicitation] = useState<getRequestInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -29,15 +31,8 @@ export default function DetalheSolicitacaoPage() {
       setLoading(true);
       setError("");
       try {
-        const response = await api.get(`/requests/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const dados =
-          response.data?.data || response.data?.props || response.data;
-        setSolicitation(dados);
+        const response = await getRequestById(String(id));
+        setSolicitation(response);
       } catch (err) {
         console.error("Erro ao carregar detalhes:", err);
         setError("Erro ao carregar os detalhes da solicitação.");
@@ -59,7 +54,7 @@ export default function DetalheSolicitacaoPage() {
       <div className="pb-16 pt-16 flex flex-col items-center justify-center size-full max-w-5xl mx-auto px-4 gap-4">
         <div className="w-full flex justify-start">
           <button
-            onClick={() => router.back()} // Faz o histórico do navegador voltar
+            onClick={() => router.back()} 
             className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors font-medium text-sm select-none cursor-pointer"
           >
             <svg
@@ -95,25 +90,19 @@ export default function DetalheSolicitacaoPage() {
 
           {!loading && !error && (
             <>
-              <SolicitationDetails data={solicitation} />
+              <SolicitationDetails data={solicitation?.data} />
 
               <hr className="my-6 border-gray-200" />
 
               <AttachedFiles
-                documentos={
-                  solicitation?.Documents ||
-                  solicitation?.props?.Documents ||
-                  []
-                }
+                documents={solicitation?.data.request?.props?.Documents || []}
               />
 
               <hr className="my-6 border-gray-200" />
 
               <ActionHistory
                 requestId={String(id)}
-                historico={
-                  solicitation?.History || solicitation?.props?.History || []
-                }
+                historico={solicitation?.data.logs || []}
               />
             </>
           )}
