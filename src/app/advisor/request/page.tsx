@@ -1,6 +1,6 @@
 import CardWhite from "@/components/cards/CardWhite";
 import { PageHeader } from "@/components/headers/PageHeader";
-import AttachedFiles from "@/components/solicitations/AttachedFiles";
+import {AttachedFiles} from "@/components/solicitations/AttachedFiles";
 import SolicitationDetails from "@/components/solicitations/SolicitationDetails";
 import ActionHistory from "@/components/ui/ActionHistory";
 import { DecorativeDots } from "@/components/ui/DecorativeDots";
@@ -37,7 +37,7 @@ export default function Page() {
         <CardWhite>
           <SolicitationDetails />
           <hr className="my-6 border-gray-200" />
-          <AttachedFiles documentos={[]} />
+          <AttachedFiles documents={[]} />
           <hr className="my-6 border-gray-200" />
           <ActionHistory requestId={""} />
         </CardWhite>
