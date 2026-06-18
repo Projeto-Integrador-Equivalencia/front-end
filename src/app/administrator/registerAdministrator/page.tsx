@@ -126,9 +126,14 @@ export default function CadastroAdministradorPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => {
+                    const emailRegex = /^[a-zA-Z0-9]+@cps\.sp\.gov\.br$/;
                     setErrors((prev) => ({
                       ...prev,
-                      email: !email ? "Campo obrigatorio" : undefined,
+                      email: !email 
+                        ? "Campo obrigatorio" 
+                        : !emailRegex.test(email)
+                          ? "Email inválido. Use: nome@cps.sp.gov.br"
+                          : undefined,
                     }));
                   }}
                   error={errors.email}
